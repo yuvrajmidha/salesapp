@@ -1,9 +1,9 @@
 import { FormControl, FormLabel } from '@chakra-ui/form-control'
-import { Box, Center, Container, Divider, Grid, Heading, HStack, Text, VStack } from '@chakra-ui/layout'
+import { Box, Center, Container, Divider, Flex, Grid, Heading, HStack, Text, VStack } from '@chakra-ui/layout'
 import {
     Button,
     Card,
-    chakra, CloseButton, Collapse, Select,
+    chakra, CloseButton, Collapse, Input, Select,
   } from "@chakra-ui/react"
 import { NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper } from '@chakra-ui/number-input'
 import React, { useEffect, useRef, useState } from 'react'
@@ -28,7 +28,7 @@ export default function Form() {
             const value = target.type === 'checkbox' ? target.checked : target.value;
             const name = target.name;
         
-            handleValues({...values, [name]: value})
+            setValues({...values, [name]: value})
     }
 
     const handleValues = (values:any) => {
@@ -58,6 +58,54 @@ export default function Form() {
     },[values])
 
 
+    const Stats = () =>  <>
+        <Heading size="md" py={4} color={values['venue_name'] ? 'black' : "gray.400"} textAlign="center">{values['venue_name'] ?? 'Unknown Venue'}</Heading>
+        <Box px={6} mx={2} py={8} bg={`${stats['deal_or_no_deal']?.toLowerCase() ?? 'red'}.50`} textAlign="center" rounded="lg">
+            <Heading color={`${stats['deal_or_no_deal']?.toLowerCase() ?? 'red'}.500`}>
+                {Number(stats['gp']).toFixed(2) ?? '00'}%
+            </Heading>
+            <Text fontWeight={"700"} fontSize="20px">{stats['deal_or_no_deal'] === "GREEN" ? "It's a deal" : "Sorry! No Deal"}</Text>
+        </Box>
+    <VStack py={6} px={6}>
+        {/* <Heading textAlign={"center"} mb={4} size="sm">Summary</Heading> */}
+        <Divider/>
+        <HStack w="100%" justify={"space-between"}>
+            <Text>Minium Sell Rate Required:</Text>
+            <Text fontWeight={"700"}>{preferred.toFixed(2)}%</Text>
+        </HStack>
+        <Divider/>
+        <HStack w="100%" justify={"space-between"}>
+            <Text>TTV:</Text>
+            <Text fontWeight={"700"}>${values['ttv']}</Text>
+        </HStack>
+        <Divider/>
+        <HStack w="100%" justify={"space-between"}>
+            <Text>ATV:</Text>
+            <Text fontWeight={"700"}>${stats['atv']}</Text>
+        </HStack>
+        <Divider/>
+        <HStack w="100%" justify={"space-between"}>
+            <Text>Total TX:</Text>
+            <Text fontWeight={"700"}>{stats['nTx']} Txns</Text>
+        </HStack>
+        <Divider/>
+        <HStack w="100%" justify={"space-between"}>
+            <Text>MSF Revenue:</Text>
+            <Text fontWeight={"700"}>${stats['msf']}</Text>
+        </HStack>
+        <Divider/>
+        <HStack w="100%" justify={"space-between"}>
+            <Text>Gross Profit Before Comms:</Text>
+            <Text fontWeight={"700"}>${stats['grossProfitBeforeComms']}</Text>
+        </HStack>
+        <Divider/>
+    </VStack>
+    <Box bottom={0} p={4} pos="absolute" w="100%">
+        <Button size="lg" bg="black" _hover={{bg: "blackAlpha.800"}} color="white" w="100%">Share</Button>
+    </Box>
+    </>
+
+
   return (
    <Container maxW="5xl">
         <Grid gap={8} templateColumns={{base: "1fr", md: "1fr 400px"}}>
@@ -67,6 +115,10 @@ export default function Form() {
                     <Text>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Pariatur aliquid dolor illum soluta consequatur velit ad ullam amet sapiente, esse eius vitae. At hic aperiam nobis architecto magnam consectetur neque?</Text>
                 </Box>
             <chakra.form w="100%" id="myForm" display={"flex"} flexWrap="wrap">
+                <FormControl p={2} width={"100%"} py={3}>
+                    <FormLabel>Venue Name</FormLabel>
+                    <Input size="sm" name="venue_name" value={values['venue_name']} onChange={handleChange}></Input>
+                </FormControl>
                 {fields.map((field:any) => <FormControl p={2} width={field?.width ?? "100%"} py={3} key={field.name}>
                     <FormLabel>{field?.label}</FormLabel>
                     {!field?.dropdown ? <NumberInput
@@ -114,19 +166,18 @@ export default function Form() {
         </VStack>
         <Box display={{base: "none", md: "block"}} py={8}>
             <Box p={6} borderWidth={1} rounded="lg">
-                <Heading>
-                    {stats['deal_or_no_deal'] ?? 'RED'}
-                </Heading>
-                <Text>{Number(stats['gp']).toFixed(2) ?? '00'}%</Text>
-                <Text>Preffered: {preferred.toFixed(2)}%</Text>
+                <Stats/>
             </Box>
         </Box>
-        <Card rounded={view ? "0px" : "0.5rem 0.5rem 0"} maxH="100vh" overflowY={"auto"} display={{md: "none", base: "block"}} w="100%" shadow={"0 -1px 5px 2px #00000011"} p={2} pos={"fixed"} bottom={0} right={0} left={0}>
+        <Card rounded={view ? "0px" : "0.5rem 0.5rem 0"} zIndex={400} maxH="100vh" overflowY={"auto"} display={{md: "none", base: "block"}} w="100%" shadow={"0 -1px 5px 2px #00000011"} p={2} pos={"fixed"} bottom={0} right={0} left={0}>
             <HStack align={"center"} justify={"space-between"} px={2} height="3.5rem" w="100%">
                 <Box>
                     {!view ? <>
-                        <Text fontSize={"12px"}>Gross Percentage</Text>
-                        <Heading color={`${stats['deal_or_no_deal']?.toLowerCase() ?? 'red'}.500`} size="md">{Number(stats['gp']).toFixed(2) ?? '00'}%</Heading>
+                        <Flex gap={2} align="center">
+                            {/* <Heading size="sm">GP: </Heading>  */}
+                            <Heading color={`${stats['deal_or_no_deal']?.toLowerCase() ?? 'red'}.500`} size="md">{Number(stats['gp']).toFixed(2) ?? '00'}%</Heading>
+                        </Flex>
+                        <Text color={`${stats['deal_or_no_deal']?.toLowerCase() ?? 'red'}.700`} fontWeight={"700"} fontSize="14px">{stats['deal_or_no_deal'] === "GREEN" ? "It's a deal" : "Sorry! No Deal"}</Text>
                     </> : <Heading size="md">Stats</Heading>}
                 </Box>
                 <Button onClick={() => {setView(!view)}} variant={view ? "ghost" : "outline"} colorScheme="blue" size="sm">
@@ -134,50 +185,8 @@ export default function Form() {
                 </Button>
             </HStack>
             <Collapse in={view} animateOpacity>
-                <Box overflowY={"auto"} minH="calc(100vh - 4.5rem)" py={6}>
-                    <Box px={6} mx={2} py={12} bg={`${stats['deal_or_no_deal']?.toLowerCase() ?? 'red'}.50`} textAlign="center" rounded="lg">
-                        <Heading color={`${stats['deal_or_no_deal']?.toLowerCase() ?? 'red'}.500`}>
-                            {Number(stats['gp']).toFixed(2) ?? '00'}%
-                        </Heading>
-                        <Text fontWeight={"700"} fontSize="20px">{stats['deal_or_no_deal'] === "GREEN" ? "It's a deal" : "Sorry! No Deal"}</Text>
-                    </Box>
-                    {/* <Box py={6}>
-                        <Text>Preffered: {preferred.toFixed(2)}%</Text>
-                    </Box> */}
-                    <VStack py={6} px={6}>
-                        <Heading textAlign={"center"} mb={4} size="sm">Summary</Heading>
-                        <Divider/>
-                        <HStack w="100%" justify={"space-between"}>
-                            <Text>Minium Sell Rate Required:</Text>
-                            <Text fontWeight={"700"}>{preferred.toFixed(2)}%</Text>
-                        </HStack>
-                        <Divider/>
-                        <HStack w="100%" justify={"space-between"}>
-                            <Text>TTV:</Text>
-                            <Text fontWeight={"700"}>${values['ttv']}</Text>
-                        </HStack>
-                        <Divider/>
-                        <HStack w="100%" justify={"space-between"}>
-                            <Text>ATV:</Text>
-                            <Text fontWeight={"700"}>${stats['atv']}</Text>
-                        </HStack>
-                        <Divider/>
-                        <HStack w="100%" justify={"space-between"}>
-                            <Text>Total TX:</Text>
-                            <Text fontWeight={"700"}>{stats['nTx']} Txns</Text>
-                        </HStack>
-                        <Divider/>
-                        <HStack w="100%" justify={"space-between"}>
-                            <Text>MSF Revenue:</Text>
-                            <Text fontWeight={"700"}>${stats['msf']}</Text>
-                        </HStack>
-                        <Divider/>
-                        <HStack w="100%" justify={"space-between"}>
-                            <Text>Gross Profit Before Comms:</Text>
-                            <Text fontWeight={"700"}>${stats['grossProfitBeforeComms']}</Text>
-                        </HStack>
-                        <Divider/>
-                    </VStack>
+                <Box pos="relative" overflowY={"auto"} minH="calc(100vh - 4.5rem)" py={6}>
+                    <Stats/>
                 </Box>
             </Collapse>
         </Card>

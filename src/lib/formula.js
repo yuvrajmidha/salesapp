@@ -60,7 +60,7 @@ const calculator = (params) => {
         }
     }
 
-    return {deal_or_no_deal: final, gp: gp > 0 ? gp : 0, grossProfitBeforeComms, cost, msf, atv, nTx: Math.floor(ttv/atv)}
+    return {deal_or_no_deal: final, gp: gp > 0 ? gp : 0, grossProfitBeforeComms: Math.round(grossProfitBeforeComms), cost: Math.round(cost), msf: Math.round(msf), atv, nTx: Math.floor(ttv/atv)}
 }
 
 export default calculator;
