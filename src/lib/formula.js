@@ -2,6 +2,21 @@
 //Constant
 const MC_VC_EFT = 0.008;
 
+const BDM = [
+    [1, 75],
+    [20000, 100],
+    [50000, 100],
+    [75000, 150],
+    [100000, 200],
+    [150000, 300],
+    [200000, 400],
+    [250000, 500],
+    [300000, 600],
+    [400000, 800],
+    [500000, 1000],
+    [1000000, 2000],
+]
+
 const AMEX = [
     [0,5, 0],
     [5, 10, 0.05],
@@ -18,7 +33,18 @@ const TERMINALS = {
     5: 33
 }
 
+const vlook = (value=0, array, column=1) => {
+
+    const arr = array.filter(item => value >= item[0])
+    console.log(arr)
+    return arr[arr.length - 1][column - 1]
+
+}
+
 const DEAL_BANDWIDTH = [18, 30, 100];
+
+const LOADING = [0, 7.5, 10];
+
 const ALERT = ["RED", "YELLOW", "GREEN"];
 
 
@@ -47,6 +73,7 @@ const calculator = (params) => {
     var gp = (grossProfitBeforeComms / msf) * 100;
 
     var final = '';
+    var final_index = 0;
     console.log(msf, cost)
 
     console.log("Cost:", getAmexCost(amex_percent, ttv), getTerminalCost(terminal_no, terminal_quantity) , free_pos , free_ba , free_myplace)
@@ -56,11 +83,32 @@ const calculator = (params) => {
 
         if(gp < element){
             final = ALERT[index]
+            final_index = index
             break;
         }
     }
 
-    return {deal_or_no_deal: final, gp: gp > 0 ? gp : 0, grossProfitBeforeComms: Math.round(grossProfitBeforeComms), cost: Math.round(cost), msf: Math.round(msf), atv, nTx: Math.floor(ttv/atv)}
+    var signup = gp >= DEAL_BANDWIDTH[0] ? vlook(ttv, BDM, 2) : 0
+    var trail = (LOADING[final_index]/100) * grossProfitBeforeComms;
+
+    var annualgp = Math.round((grossProfitBeforeComms * 12) - signup - (trail * 12))
+
+    console.log(signup, trail, signup + trail)
+
+    return {
+        deal_or_no_deal: final, 
+        gp: gp > 0 ? gp : 0, 
+        grossProfitBeforeComms: Math.round(grossProfitBeforeComms), 
+        cost: Math.round(cost), 
+        msf: Math.round(msf), 
+        atv, 
+        nTx: Math.floor(ttv/atv),
+        signup: signup,
+        trail,
+        bdm: Math.round(signup + trail),
+        annualgp: annualgp > 0 ? annualgp : 0
+
+    }
 }
 
 export default calculator;
