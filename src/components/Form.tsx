@@ -14,10 +14,10 @@ import calculator from '../lib/formula'
 const fields:any = form_fields;
 
 function numberWithCommas(x:any) {
-    x = x.toString();
+    x = x?.toString();
     var pattern = /(-?\d+)(\d{3})/;
     while (pattern.test(x))
-        x = x.replace(pattern, "$1,$2");
+        x = x?.replace(pattern, "$1,$2");
     return x;
 }
 
