@@ -1,17 +1,12 @@
-import { FormControl, FormLabel } from '@chakra-ui/form-control'
-import { Box, Center, Container, Divider, Flex, Grid, Heading, HStack, Text, VStack } from '@chakra-ui/layout'
+import { Box, Divider, Flex, Heading, HStack, Text, VStack } from '@chakra-ui/layout'
 import {
     Button,
     Card,
-    chakra, Collapse, Input, Select,
+    Collapse,
   } from "@chakra-ui/react"
-import { NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper } from '@chakra-ui/number-input'
 import React, { useEffect, useState } from 'react'
 
-import form_fields from '../constants/form.json';
 import calculator from '../lib/formula'
-
-const fields:any = form_fields;
 
 function numberWithCommas(x:any) {
     x = x?.toString();
@@ -165,88 +160,4 @@ const Stats = ({values}:any) =>  {
 </>
 }
 
-export default function Form() {
-
-    const [values, setValues]:any = useState(Object.fromEntries(fields.map((field:any) => [field.name, field.default])))
-
-    function handleChange(event:any) {
-            const target = event.target;
-            const value = target.type === 'checkbox' ? target.checked : target.value;
-            const name = target.name;
-        
-            setValues({...values, [name]: value})
-    }
-
-    const handleValues = (values:any) => {
-        
-        setValues(Object.fromEntries(Object.entries(values).map(item => item[1] ? item : [item[0], ''])))
-
-    }
-
-    function setFieldValue(key:string, value:any){
-        handleValues({...values, [key]: value})
-    }   
-
-  return (
-   <Container maxW="5xl">
-        <Grid gap={8} templateColumns={{base: "1fr", md: "1fr 400px"}}>
-            <VStack spacing={4} py={8}>
-                <Box w="100%" px={3}>
-                    <Heading mb={2} size="md">GP Calculator</Heading>
-                    {/* <Text>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Pariatur aliquid dolor illum soluta consequatur velit ad ullam amet sapiente, esse eius vitae. At hic aperiam nobis architecto magnam consectetur neque?</Text> */}
-                </Box>
-            <chakra.form w="100%" id="myForm" display={"flex"} flexWrap="wrap">
-                <FormControl p={2} width={"100%"} py={3}>
-                    <FormLabel>Venue Name</FormLabel>
-                    <Input size="sm" name="venue_name" value={values['venue_name']} onChange={handleChange}></Input>
-                </FormControl>
-                {fields.map((field:any) => <FormControl p={2} width={field?.width ?? "100%"} py={3} key={field.name}>
-                    <FormLabel>{field?.label}</FormLabel>
-                    {!field?.dropdown ? <NumberInput
-                        px={2}
-                        rounded="md"
-                        size="sm"
-                        pos={"relative"}
-                        name={field.name} 
-                        precision={field.precision ?? 0} 
-                        value={`${values[field.name]}`} 
-                        onChange={(str, num) => {setFieldValue(field.name, str)}} 
-                        max={field.max} 
-                        min={field.min}
-                        step={field.step ?? 1}
-                        display="flex"
-                        alignItems={"center"}
-                        borderWidth={1}
-                    >
-                        {field.prefix && <Center fontSize={"1rem"} fontWeight="900" color="gray.400" h="100%" px={2}>
-                            {field.prefix}
-                        </Center>}
-                        <NumberInputField px={1} border={0} _focus={{shadow:"none"}} />
-                       {field.suffix && <Center fontSize={"1rem"} fontWeight="900" color="gray.400" h="100%" px={2}>
-                            {field.suffix}
-                        </Center>}
-                        <NumberInputStepper pos="relative" flexDirection={"row"} width="4rem">
-                            <NumberIncrementStepper borderWidth={0} py={2} rounded="md" px={2}/>
-                            <NumberDecrementStepper borderWidth={0} py={2} px={2} rounded="md" _last={{borderWidth: 0}}/>
-                        </NumberInputStepper>
-                    </NumberInput> : <Select
-                            size="sm"
-                            name={field.name}
-                            value={`${values[field.name]}`} 
-                            onChange={handleChange}
-                        >
-                            {Array.from({
-                                length: Math.floor((field?.max - field?.min)/field?.step)
-                                }, (v, k) => (field.min + (k * field.step))).map(option => <option key={option} value={option}>
-                                    {field?.prefix} {option} {field.suffix}
-                            </option>)}
-                        </Select>}
-                </FormControl>)}
-            </chakra.form>
-            <Box h={20}/>
-        </VStack>
-        <Stats values={values}/>
-        </Grid>
-   </Container>
-  )
-}
+export default Stats;

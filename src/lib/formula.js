@@ -65,7 +65,17 @@ const calculator = (params) => {
 
     console.log(params)
 
-    const {sell_rate = 1.50, ttv = 260000, atv = 30, terminal_no = 3, terminal_quantity=3, free_pos = 150, free_ba = 50, free_myplace = 50, amex_percent = 0} = params
+    const {
+        sell_rate = 1.50, 
+        ttv = 260000, 
+        atv = 30, 
+        terminal_no = 3, 
+        terminal_quantity=3, 
+        free_pos = 150, 
+        free_ba = 50, 
+        free_myplace = 50, 
+        amex_percent = 0
+    } = params
     
     var msf = sell_rate/100 * ttv; //Sell Rate * ttv
     var cost = (getAmexCost(amex_percent) * ttv) + getTerminalCost(terminal_no, terminal_quantity) + free_pos + free_ba + free_myplace; //
