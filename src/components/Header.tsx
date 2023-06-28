@@ -16,7 +16,6 @@ export default function Header() {
                     <ColorModeSwitcher justifySelf="flex-end" />
                 </HStack>
             </Container>
-            <Divider/>
         </>
     )
 }

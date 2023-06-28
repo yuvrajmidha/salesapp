@@ -8,7 +8,7 @@ import Form from "./components/Form"
 export const App = () => (
   <ChakraProvider theme={theme}>
      <>
-      <Header/>
+      {/* <Header/> */}
       <Form/>
      </>
   </ChakraProvider>

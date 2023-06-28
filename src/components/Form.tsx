@@ -1,169 +1,18 @@
 import { FormControl, FormLabel } from '@chakra-ui/form-control'
-import { Box, Center, Container, Divider, Flex, Grid, Heading, HStack, Text, VStack } from '@chakra-ui/layout'
+import { Box, Center, Container, Divider, Flex, Grid, AspectRatio, Heading, HStack, Text, VStack } from '@chakra-ui/layout'
 import {
     Button,
     Card,
-    chakra, Collapse, Input, Select,
+    chakra, Collapse, Input, Select, Slider, SliderFilledTrack, SliderThumb, SliderTrack,
   } from "@chakra-ui/react"
 import { NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField, NumberInputStepper } from '@chakra-ui/number-input'
 import React, { useEffect, useState } from 'react'
 
 import form_fields from '../constants/form.json';
-import calculator from '../lib/formula'
+import { FaMinus, FaPlus } from 'react-icons/fa'
+import Stats from './Stats'
 
 const fields:any = form_fields;
-
-function numberWithCommas(x:any) {
-    x = x?.toString();
-    var pattern = /(-?\d+)(\d{3})/;
-    while (pattern.test(x))
-        x = x?.replace(pattern, "$1,$2");
-    return x;
-}
-
-const Stats = ({values}:any) =>  {
-
-    const [stats, setStats]:any = useState({});
-
-    const [view, setView]:any = useState(false);
-
-    const [preferred, setPreffered] = useState<number>(0.05);
-    const [minimum, setMinimum] = useState<number>(0.05);
-
-    useEffect(() => {
-        const params = Object.fromEntries(Object.entries(values).map(item => [item[0], Number(item[1])]))
-        setStats(calculator({
-            sell_rate: params['sell_rate'], 
-            ttv: params['ttv'], 
-            atv: params['atv'], 
-            terminal_no: params['terminal_no'], 
-            terminal_quantity:params['terminal_quantity'], 
-            free_pos: params['free_pos'], 
-            free_ba: params['free_ba'], 
-            free_myplace: params['free_myplace'], 
-            amex_percent: params['amex_percent']
-        }))
-
-
-        for (let index = 1; index < 100; index++) {
-            
-            if(calculator({...params, sell_rate: index * (3/100)}).deal_or_no_deal === "YELLOW"){
-                setMinimum(index)
-                break;
-            }
-        }
-
-        for (let index = 1; index < 100; index++) {
-            if(calculator({...params, sell_rate: index * (3/100)}).deal_or_no_deal === "GREEN"){
-                setPreffered(index)
-                break;
-            }
-
-        }
-
-    },[values])
-
-    return <>
-    <Card rounded={view ? "0px" : "0.5rem 0.5rem 0 0"} zIndex={400} maxH="100vh" overflowY={"auto"} display={{md: "none", base: "block"}} w="100%" shadow={"0 -1px 5px 2px #00000011"} p={2} pos={"fixed"} bottom={0} right={0} left={0}>
-            <HStack align={"center"} justify={"space-between"} px={2} height="3.5rem" w="100%">
-                <Box>
-                    {!view ? <>
-                        <Flex gap={2} align="center">
-                            {/* <Heading size="sm">GP: </Heading>  */}
-                            <Heading color={`${stats['deal_or_no_deal']?.toLowerCase() ?? 'red'}.500`} size="md">{Number(stats['gp']).toFixed(2) ?? '00'}%</Heading>
-                        </Flex>
-                        <Text color={`${stats['deal_or_no_deal']?.toLowerCase() ?? 'red'}.700`} fontWeight={"700"} fontSize="14px">{stats['deal_or_no_deal'] === "GREEN" ? "It's a deal" : "Sorry! No Deal"}</Text>
-                    </> : <Heading size="md">Stats</Heading>}
-                </Box>
-                <Button onClick={() => {setView(!view)}} variant={view ? "ghost" : "outline"} colorScheme="blue" size="sm">
-                    {view ? "Close"  :"View Stats"}
-                </Button>
-            </HStack>
-            <Collapse in={view} animateOpacity>
-                <Box pos="relative" overflowY={"auto"} minH="calc(100vh - 4.5rem)" py={6}>
-                <Heading size="md" py={4} color={values['venue_name'] ? 'black' : "gray.400"} textAlign="center">{values['venue_name'] ?? 'Unknown Venue'}</Heading>
-        <Box px={6} mx={2} py={8} bg={`${stats['deal_or_no_deal']?.toLowerCase() ?? 'red'}.50`} textAlign="center" rounded="lg">
-            <Heading color={`${stats['deal_or_no_deal']?.toLowerCase() ?? 'red'}.500`}>
-                {Number(stats['gp']).toFixed(2) ?? '00'}%
-            </Heading>
-            <Text fontWeight={"700"} fontSize="20px">{stats['deal_or_no_deal'] === "GREEN" ? "It's a deal" : "Sorry! No Deal"}</Text>
-        </Box>
-    <VStack py={6} px={6}>
-    <Flex w="100%" overflow={"hidden"} h={4} rounded="full" justify={"space-between"}>
-        {[0,1,2,3].map(percent => <Text fontSize={"10px"} fontWeight="bold">{percent}%</Text>)}
-    </Flex> 
-    <Flex mt={2} w="100%" overflow={"hidden"} h={2} rounded="full" bg="yellow.400" justify={"space-between"}>
-        <Box w={`${minimum}%`} bg="red.400" h={5}></Box>
-        <Box w={`${100 - preferred}%`} bg="green.400" h={5}></Box>
-    </Flex>
-    <Flex mt="-1.4rem" w="100%">
-        <Box ml={`${(Number(values['sell_rate']) * 100 / 3).toFixed(2)}%`} w={"3px"} h={5} bg="black"></Box>
-    </Flex> 
-    </VStack>
-    <Box px={3}>
-        <Flex rounded={"xl"} bg="gray.50" py={4} px={2} gap={1} w="100%" justify={"space-between"}>
-            <VStack spacing={1} textAlign={"center"} w="100%">
-                <Heading fontSize={"0.8rem"} textTransform={"uppercase"} color="gray.400">Current</Heading>
-                <Heading color="gray.700" size="md">{Number(values['sell_rate']).toFixed(2)}%</Heading>
-            </VStack>
-            <VStack spacing={1} textAlign={"center"} w="100%">
-                <Heading fontSize={"0.8rem"} textTransform={"uppercase"} color="gray.400">Minimum</Heading>
-                <Heading color="gray.700" size="md">{Number(minimum * 3/100).toFixed(2)}%</Heading>
-            </VStack>
-            <VStack spacing={1} textAlign={"center"} w="100%">
-                <Heading fontSize={"0.8rem"} textTransform={"uppercase"} color="gray.400">Preffered</Heading>
-                <Heading color="gray.700" size="md">{Number(preferred * 3/100).toFixed(2)}%</Heading>
-            </VStack>
-        </Flex>
-    </Box>
-    <VStack py={6} px={6}>
-    <Divider/>
-            <HStack w="100%" justify={"space-between"}>
-                <Text>TTV:</Text>
-                <Text fontWeight={"700"}>${numberWithCommas(values['ttv'])}</Text>
-            </HStack>
-            <Divider/>
-            <HStack w="100%" justify={"space-between"}>
-                <Text>ATV:</Text>
-                <Text fontWeight={"700"}>${numberWithCommas(stats['atv'])}</Text>
-            </HStack>
-            <Divider/>
-            <HStack w="100%" justify={"space-between"}>
-                <Text>Total TX:</Text>
-                <Text fontWeight={"700"}>{numberWithCommas(stats['nTx'])} Txns</Text>
-            </HStack>
-            <Divider/>
-            <HStack w="100%" justify={"space-between"}>
-                <Text>MSF Revenue:</Text>
-                <Text fontWeight={"700"}>${numberWithCommas(stats['msf'])}</Text>
-            </HStack>
-            <Divider/>
-            <HStack w="100%" justify={"space-between"}>
-                <Text>Gross Profit Before Comms:</Text>
-                <Text fontWeight={"700"}>${numberWithCommas(stats['grossProfitBeforeComms'])}</Text>
-            </HStack>
-            <Divider/>
-            <HStack w="100%" justify={"space-between"}>
-                <Text>BDM Comms:</Text>
-                <Text fontWeight={"700"}>${numberWithCommas(stats['bdm'])}</Text>
-            </HStack>
-            <Divider/>
-            <HStack w="100%" align={"center"} justify={"space-between"}>
-                <Text>Annual GP: <small>(After Comm)</small></Text>
-                <Text fontWeight={"700"}>${numberWithCommas(stats['annualgp'])}</Text>
-            </HStack>
-            <Divider/>
-            <Box mt={4} w="100%">
-                <Button size="lg" bg="black" _hover={{bg: "blackAlpha.800"}} color="white" w="100%">Share</Button>
-            </Box>
-        </VStack>
-            </Box>
-        </Collapse>
-        </Card>
- 
-
-</>
-}
 
 export default function Form() {
 
@@ -187,66 +36,110 @@ export default function Form() {
         handleValues({...values, [key]: value})
     }   
 
+    const [stats, setStats] = useState<any>({})
+
   return (
-   <Container maxW="5xl">
-        <Grid gap={8} templateColumns={{base: "1fr", md: "1fr 400px"}}>
-            <VStack spacing={4} py={8}>
-                <Box w="100%" px={3}>
-                    <Heading mb={2} size="md">GP Calculator</Heading>
-                    {/* <Text>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Pariatur aliquid dolor illum soluta consequatur velit ad ullam amet sapiente, esse eius vitae. At hic aperiam nobis architecto magnam consectetur neque?</Text> */}
-                </Box>
-            <chakra.form w="100%" id="myForm" display={"flex"} flexWrap="wrap">
-                <FormControl p={2} width={"100%"} py={3}>
-                    <FormLabel>Venue Name</FormLabel>
-                    <Input size="sm" name="venue_name" value={values['venue_name']} onChange={handleChange}></Input>
-                </FormControl>
-                {fields.map((field:any) => <FormControl p={2} width={field?.width ?? "100%"} py={3} key={field.name}>
-                    <FormLabel>{field?.label}</FormLabel>
-                    {!field?.dropdown ? <NumberInput
-                        px={2}
-                        rounded="md"
-                        size="sm"
-                        pos={"relative"}
-                        name={field.name} 
-                        precision={field.precision ?? 0} 
-                        value={`${values[field.name]}`} 
-                        onChange={(str, num) => {setFieldValue(field.name, str)}} 
-                        max={field.max} 
-                        min={field.min}
-                        step={field.step ?? 1}
-                        display="flex"
-                        alignItems={"center"}
-                        borderWidth={1}
-                    >
-                        {field.prefix && <Center fontSize={"1rem"} fontWeight="900" color="gray.400" h="100%" px={2}>
-                            {field.prefix}
-                        </Center>}
-                        <NumberInputField px={1} border={0} _focus={{shadow:"none"}} />
-                       {field.suffix && <Center fontSize={"1rem"} fontWeight="900" color="gray.400" h="100%" px={2}>
-                            {field.suffix}
-                        </Center>}
-                        <NumberInputStepper pos="relative" flexDirection={"row"} width="4rem">
-                            <NumberIncrementStepper borderWidth={0} py={2} rounded="md" px={2}/>
-                            <NumberDecrementStepper borderWidth={0} py={2} px={2} rounded="md" _last={{borderWidth: 0}}/>
-                        </NumberInputStepper>
-                    </NumberInput> : <Select
-                            size="sm"
-                            name={field.name}
-                            value={`${values[field.name]}`} 
-                            onChange={handleChange}
+    <Box pos={"fixed"} h="100vh" top={0} right={0}  width={"100vw"} overflowY={"auto"}>
+        <Stats values={values} onChange={setStats}/>
+    {/* <Box bg="gray.900" borderRadius={"0 0 1rem 1rem"}> */}
+       
+    {/* </Box> */}
+    <Box zIndex={300} bg="white" p={3} borderRadius={"0"} dropShadow={"none"} >
+        <chakra.form w="100%" id="myForm" display={"flex"} flexWrap="wrap">
+        {/* <FormControl p={2} width={"100%"} py={3}>
+            <FormLabel>Venue Name</FormLabel>
+            <Input size="sm" name="venue_name" value={values['venue_name']} onChange={handleChange}></Input>
+        </FormControl> */}
+        {fields.map((field:any) => <FormControl px={2} py={2} w={field?.width ?? "100%"} display={"flex"} gap={2} flexDirection={field?.flow ?? "column"} justifyContent={"space-between"} alignItems={"center"} key={field.name}>
+            <FormLabel w="100%" textAlign={field.flow === "row" ? "left" : "center"}  m={0}>{field?.label}</FormLabel>
+            
+            {field.type === 'slider' && <Slider
+                aria-label='slider'
+                min={0}
+                step={0.05}
+                max={3}
+                value={Number(values['sell_rate'])}
+                onChange={(val) => setFieldValue(field.name, val)}
+                >
+                <SliderTrack bgGradient={`linear(to-r, red.500 0%, red.500 ${stats['minimum']}%, yellow.500 ${stats['minimum']}%, yellow.500 ${stats['preferred']}%, green.500 ${stats['preferred']}%)`}>
+                    <SliderFilledTrack bg="transparent" />
+                </SliderTrack>
+                <SliderThumb/>
+            </Slider>}
+
+            {field.type === "number" && <NumberInput
+                gap={2}
+                w="100%"
+                size="lg"
+                pos={"relative"}
+                rounded="full"
+                name={field.name} 
+                precision={field.precision ?? 0} 
+                value={`${values[field.name]}`} 
+                onChange={(str, num) => {setFieldValue(field.name, str)}} 
+                max={field.max} 
+                min={field.min}
+                step={field.step ?? 1}
+                borderWidth={1}
+                display="flex"
+                alignItems={"center"}
+                justifyContent={"space-between"}
+            >
+                
+                <NumberDecrementStepper _disabled={{borderColor: "gray.300", color: "gray.300"}} borderWidth={0} py={"0.3rem"} borderColor={"gray.400"} color="gray.600" px={"1rem"} borderRadius={"4px !important"}>
+                        <FaMinus size="10px"/>
+                </NumberDecrementStepper>
+               
+                <Flex gap={1} fontWeight={"600"} rounded={"lg"} py={1} justify={"center"} w="100%" align={"center"}>
+                    <Text as="span">
+                      {field.prefix}
+                    </Text>
+                    <Text as="span">
+                      {values[field.name]}
+                    </Text>
+                    <Text as="span">
+                      {field.suffix}
+                    </Text>
+                </Flex>
+                
+                {/* <NumberInputField px={1} border={0} w="fit-content !important" _focus={{shadow:"none"}} /> */}
+                <NumberIncrementStepper _disabled={{borderColor: "gray.300", color: "gray.300"}} borderWidth={0} borderTop={"none"} py={"0.4rem"} borderColor={"gray.400"} color="gray.600" px={"1rem"} borderRadius={"4px !important"}>
+                        <FaPlus size={"10px"}/>
+                </NumberIncrementStepper>
+            
+            </NumberInput>}
+            {field.type === "spacer" && <Center w="100%" h={field.value}>
+                {field?.divider && <Divider w="100%"/>}
+            </Center>}
+             {field.type === "dropdown" && <Flex overflowX={"auto"} w="100%">
+                    <Flex gap={2}  py={6} w="fit-content">
+                    {Array.from({
+                        length: Math.floor((field?.max - field?.min)/field?.step)
+                        }, (v, k) => (field.min + (k * field.step))).map(option => <VStack 
+                            key={option}
+                            minW={"96px"}
+                            spacing={0}
+                            rounded={"lg"}
+                            onClick={() => {Number(values[field.name]) === option ?  setFieldValue(field.name, '') : setFieldValue(field.name, option)}}
+                            shadow={Number(values[field.name]) === option ? "lg" : 'none'}
+                            bg={Number(values[field.name]) === option ? "black" : 'gray.100'}
+                            color={Number(values[field.name]) !== option ? "black" : 'gray.100'}
+                            _selected={{shadow: "lg"}}
+                            px={2}
+                            py={2}
                         >
-                            {Array.from({
-                                length: Math.floor((field?.max - field?.min)/field?.step)
-                                }, (v, k) => (field.min + (k * field.step))).map(option => <option key={option} value={option}>
-                                    {field?.prefix} {option} {field.suffix}
-                            </option>)}
-                        </Select>}
-                </FormControl>)}
-            </chakra.form>
-            <Box h={20}/>
-        </VStack>
-        <Stats values={values}/>
-        </Grid>
-   </Container>
+                            <Text fontWeight={"600"}>{field?.prefix}</Text>
+                            <Text fontSize={"2xl"} fontWeight={"800"}>{option}</Text> 
+                            <Text>{field?.suffix}</Text>
+                    </VStack>)}
+                </Flex>
+                </Flex>}
+        </FormControl>)}
+        </chakra.form>
+        <Box h={20}/>
+        </Box>
+    </Box>
+    
+            
   )
 }

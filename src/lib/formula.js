@@ -61,9 +61,9 @@ const getTerminalCost = (terminal_no=0, quantity=0) => {
     return TERMINALS[terminal_no] * quantity
 }
 
-const calculator = (params) => {
+const calculator = (_params) => {
 
-    console.log(params)
+    var params = Object.fromEntries(Object.entries(_params).map(item => [item[0], Number(item[1])]))
 
     const {
         sell_rate = 1.50, 
@@ -84,9 +84,9 @@ const calculator = (params) => {
 
     var final = '';
     var final_index = 0;
-    console.log(msf, cost)
+    // console.log(msf, cost)
 
-    console.log("Cost:", getAmexCost(amex_percent, ttv), getTerminalCost(terminal_no, terminal_quantity) , free_pos , free_ba , free_myplace)
+    // console.log("Cost:", getAmexCost(amex_percent, ttv), getTerminalCost(terminal_no, terminal_quantity) , free_pos , free_ba , free_myplace)
 
     for (let index = 0; index < DEAL_BANDWIDTH.length; index++) {
         const element = DEAL_BANDWIDTH[index];
@@ -103,7 +103,7 @@ const calculator = (params) => {
 
     var annualgp = Math.round((grossProfitBeforeComms * 12) - signup - (trail * 12))
 
-    console.log(signup, trail, signup + trail)
+    // console.log(signup, trail, signup + trail)
 
     return {
         deal_or_no_deal: final, 

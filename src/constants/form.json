@@ -1,5 +1,6 @@
 [
     {
+        "type": "slider", 
         "name": "sell_rate",
         "label": "Sell Rate",
         "min": 0,
@@ -11,8 +12,14 @@
         "suffix": "%"
     },
     {
-        "name": "ttv",
+        "type": "spacer",
+        "value": 4,
+        "divider": true
+    },
+    {
+        "type": "number", "name": "ttv",
         "label": "Monthly TTV",
+        "flow": "row",
         "min": 1,
         "max": 1000000,
         "default": "10000",
@@ -22,22 +29,27 @@
         "suffix": ""
     },
     {
-        "name": "atv",
+        "type": "number", "name": "atv",
         "label": "ATV",
         "min": 1,
         "max": 500,
         "default": "50",
+        "flow": "row",
         "precision": 2,
         "step": 1,
         "prefix": "$",
         "suffix": ""
     },
     {
-        "name": "terminal_no",
+        "type": "spacer",
+        "value": 4,
+        "divider": true
+    },
+    {
+        "type": "dropdown", "name": "terminal_no",
         "label": "Terminal Number",
-        "dropdown": true,
-        "width": "60%",
-        "min": 0,
+        "width": "100%",
+        "min": 1,
         "max": 6,
         "default": "1",
         "precision": 0,
@@ -46,11 +58,11 @@
         "suffix": ""
     },
     {
-        "name": "terminal_quantity",
+        "type": "number", "name": "terminal_quantity",
         "label": "Quantity",
-        
-        "width": "40%",
+        "width": "100%",
         "min": 0,
+        "flow": "row",
         "max": 20,
         "default": "1",
         "precision": 0,
@@ -59,22 +71,28 @@
         "suffix": ""
     },
     {
-        "name": "free_pos",
+        "type": "spacer",
+        "value": 4,
+        "divider": true
+    },
+    {
+        "type": "number", "name": "free_pos",
         "label": "Free POS Subs",
         "min": 0,
         "max": 1000,
         "default": "0",
+        "flow": "row",
         "precision": 2,
         "step": 25,
         "prefix": "$",
         "suffix": ""
     },
     {
-        "name": "free_ba",
+        "type": "number", "name": "free_ba",
         "label": "Free BA+",
         "min": 0,
         "max": 1000,
-        "width": "50%",
+        "flow": "row",
         "default": "0",
         "precision": 2,
         "step": 25,
@@ -82,25 +100,26 @@
         "suffix": ""
     },
     {
-        "name": "free_myplace",
+        "type": "number", "name": "free_myplace",
         "label": "Free MyPlace",
         "min": 0,
         "max": 1000,
-        "width": "50%",
         "default": "0",
+        "flow": "row",
         "precision": 2,
         "step": 25,
         "prefix": "$",
         "suffix": ""
     },
     {
-        "name": "amex_percent",
+        "type": "number", "name": "amex_percent",
         "label": "Amex Percentage",
         "min": 0,
         "max": 25,
         "default": "5",
         "precision": 0,
         "step": 1,
+        "flow": "row",
         "prefix": "",
         "suffix": "%"
     }
