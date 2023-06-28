@@ -17,7 +17,7 @@ import React, { useEffect, useState } from 'react'
 
 import calculator from '../lib/formula'
 import { FaCaretUp } from 'react-icons/fa';
-// import useUser from '../@codbrix/hooks/useUser';
+import useUser from '../@codbrix/hooks/useUser';
 import { TbDashboard } from 'react-icons/tb';
 
 function numberWithCommas(x:any) {
@@ -29,18 +29,15 @@ function numberWithCommas(x:any) {
 }
 
 
-const Stats = ({values, props={}, onChange=() => {}}:any) =>  {
+const Stats = ({values, props={}, view=false, onChange=() => {}}:any) =>  {
 
     const [stats, setStats]:any = useState({});
 
-    const [view, setView]:any = useState(false);
 
     const [preferred, setPreffered] = useState<number>(0.05);
     const [minimum, setMinimum] = useState<number>(0.05);
 
-    const user:any = {
-        role: "admin"
-    }
+    const user:any = useUser()
 
 
 function useLongPress(callback = () => {}, ms = 2000) {
@@ -119,8 +116,7 @@ function useLongPress(callback = () => {}, ms = 2000) {
 
     const DrawerCont = () =>    <>
         <Box pos="relative">
-            <Heading size="md" py={4} color={values['venue_name'] ? 'black' : "gray.400"} textAlign="center">{values['venue_name'] ?? 'Unknown Venue'}</Heading>
-            <Box px={6} mx={2} pb={3} textAlign="center" rounded="lg">
+            <Box px={6} mx={2} py={8} textAlign="center" rounded="lg">
             <Heading py={3} color={`${stats['deal_or_no_deal']?.toLowerCase() ?? 'red'}.500`} size="2xl">
                     {stats['deal_or_no_deal'] === "GREEN" && "It's a Deal"}
                     {stats['deal_or_no_deal'] === "YELLOW" && "Try Negotiating"}
@@ -167,33 +163,33 @@ function useLongPress(callback = () => {}, ms = 2000) {
                 setBDM(true)
             }, 2500)} py={10} px={6}>
                 <Divider/>
-                <HStack w="100%" justify={"space-between"}>
+                <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>
                     <Text>TTV:</Text>
-                    <Text fontWeight={"700"}>${numberWithCommas(values['ttv'])}</Text>
+                    <Text fontWeight={"700"}>${numberWithCommas(values['monthly_ttv'])}</Text>
                 </HStack>
                 <Divider/>
-                <HStack w="100%" justify={"space-between"}>
+                <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>
                     <Text>ATV:</Text>
                     <Text fontWeight={"700"}>${numberWithCommas(stats['atv'])}</Text>
                 </HStack>
                 <Divider/>
-                <HStack w="100%" justify={"space-between"}>
+                <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>
                     <Text>Total TX:</Text>
                     <Text fontWeight={"700"}>{numberWithCommas(stats['nTx'])} Txns</Text>
                 </HStack>
                 <Divider/>
                 {admin && <>
-                    <HStack w="100%" justify={"space-between"}>
+                    <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>
                         <Text>MSF Revenue:</Text>
                         <Text fontWeight={"700"}>${numberWithCommas(stats['msf'])}</Text>
                     </HStack>
                     <Divider/>
-                    <HStack w="100%" justify={"space-between"}>
+                    <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>
                         <Text>Gross Profit Before Comms:</Text>
                         <Text fontWeight={"700"}>${numberWithCommas(stats['grossProfitBeforeComms'])}</Text>
                     </HStack>
                     <Divider/>
-                    <HStack w="100%" justify={"space-between"}>
+                    <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>
                         <Text>Gross Percentage:</Text>
                         <Text fontWeight={"700"}>{numberWithCommas(stats['gp']?.toFixed(2))}%</Text>
                     </HStack>
@@ -202,14 +198,14 @@ function useLongPress(callback = () => {}, ms = 2000) {
                 <Box h={4}></Box>
                 {viewBDM && <>
                     <Divider/>
-                    <HStack w="100%" justify={"space-between"}>
+                    <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>
                         <Text>BDM Comms:</Text>
                         <Text fontWeight={"700"}>${numberWithCommas(stats['bdm'])}</Text>
                     </HStack>
                     <Divider/>
                 </>}
                 {admin && <>
-                <HStack w="100%" align={"center"} justify={"space-between"}>
+                    <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>
                     <Text>Annual GP: <small>(After Comm)</small></Text>
                     <Text fontWeight={"700"}>${numberWithCommas(stats['annualgp'])}</Text>
                 </HStack>
@@ -222,60 +218,19 @@ function useLongPress(callback = () => {}, ms = 2000) {
         </Box>
     </>
 
-    const [hue, setHue]:any = useState(120);
-
-    useEffect(() => {
-
-
-        if(stats['deal_or_no_deal'] === 'GREEN'){
-            setHue(98)
-        }
-        if(stats['deal_or_no_deal'] === 'YELLOW'){
-            setHue(24)
-        }
-        if(stats['deal_or_no_deal'] === 'RED'){
-            setHue(-22)
-        }
-
-    }, [values, minimum, preferred])
+   
 
     return <>
           
-      <Box 
-        transition={"0.8s"}
-        // pos={"fixed"} top={0} right={0} left={0} bottom={0} 
-        filter={`hue-rotate(${hue}deg)`} 
-        width={"100%"}
-        zIndex={"-10"}
-        p={4}
-        bgGradient={`linear(to-b, orange.600, orange.400)`}
-      >
-        <Collapse  in={view}>
-            <Box filter={`hue-rotate(${-1 * hue}deg)`}  p={3} mb={4} bg="white" rounded={"2xl"}>
+    
+  
+
+        <Collapse in={view}>
+            <Box p={1} mb={4} bg="white" borderRadius={"0 0 0.5rem 0.5rem"}>
                 <DrawerCont/>
             </Box>
        </Collapse>
-    </Box>
 
-
- 
-
-    <Flex zIndex={200} flexDirection={"column"} transition={"0.3s"} mt="-1rem" pb="0" justify={"end"} w="100%" {...props}>
-        
-        <Box zIndex={300} borderRadius={"1rem 1rem 0 0"} bg="white" borderBottomWidth={1} position={"sticky"} top={4}>
-            <HStack pos="relative" justifyContent={"space-between"} transition={"0.3s"} py={1} px={1} spacing={4}>
-                    {/* <Box></Box> */}
-                    <Heading px={3} size="sm">Venue Name</Heading>
-                    <Box>
-                        <Button leftIcon={<TbDashboard/>} aria-label='Stats' onClick={() => {setView(!view)}}  variant={"ghost"} my={1} size="md" rounded={"full"}>
-                            View Stats
-                        </Button>
-                    </Box>
-            </HStack>
-        </Box>
-
-      
-    </Flex>
        {/* <Drawer
         isOpen={view}
         placement={'right'}

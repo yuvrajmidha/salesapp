@@ -1,0 +1,27 @@
+import { FieldProps } from "./field"
+
+export type ListProps = {
+    collection?: string,
+    filters?: FieldProps[],
+    fields: FieldProps[],
+    data?: any[],
+    total?: number,
+    limit?: number,
+    view?: "TABLE" | "LIST" | "list" | "table",
+    route?: any,
+    pagination: boolean,
+    wrapper_class: string,
+    footer: string,
+    id: string,
+    header: string,
+    render: string| Function,
+    onSearch?: Function,
+    onSort?: Function,
+    onFilter?: Function,
+    onLoad?: Function,
+    onPageChange?: Function,
+    onDragEnd?: Function,
+    onAdd?: Function,
+    onExport?: Function,
+    onEvent?: Function,
+}

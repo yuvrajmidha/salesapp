@@ -36,7 +36,6 @@ const TERMINALS = {
 const vlook = (value=0, array, column=1) => {
 
     const arr = array.filter(item => value >= item[0])
-    console.log(arr)
     return arr[arr.length - 1][column - 1]
 
 }
@@ -61,24 +60,25 @@ const getTerminalCost = (terminal_no=0, quantity=0) => {
     return TERMINALS[terminal_no] * quantity
 }
 
-const calculator = (_params) => {
+const calculator = (params) => {
 
-    var params = Object.fromEntries(Object.entries(_params).map(item => [item[0], Number(item[1])]))
+    // var params = Object.fromEntries(Object.entries(__params).map(item => [item[0], Number(item[1])]))
 
     const {
-        sell_rate = 1.50, 
-        ttv = 260000, 
-        atv = 30, 
-        terminal_no = 3, 
-        terminal_quantity=3, 
-        free_pos = 150, 
-        free_ba = 50, 
-        free_myplace = 50, 
-        amex_percent = 0
+        monthly_ttv, 
+        terminal_number, 
+        atv, 
+        sell_rate, 
+        terminal_quantity, 
+        free_ba, 
+        free_myplace, 
+        free_pos, 
+        amex_percent 
     } = params
+
     
-    var msf = sell_rate/100 * ttv; //Sell Rate * ttv
-    var cost = (getAmexCost(amex_percent) * ttv) + getTerminalCost(terminal_no, terminal_quantity) + free_pos + free_ba + free_myplace; //
+    var msf = sell_rate/100 * monthly_ttv; //Sell Rate * ttv
+    var cost = (getAmexCost(amex_percent) * monthly_ttv) + getTerminalCost(terminal_number, terminal_quantity) + free_pos + free_ba + free_myplace; //
     var grossProfitBeforeComms = msf - cost;
     var gp = (grossProfitBeforeComms / msf) * 100;
 
@@ -98,7 +98,7 @@ const calculator = (_params) => {
         }
     }
 
-    var signup = gp >= DEAL_BANDWIDTH[0] ? vlook(ttv, BDM, 2) : 0
+    var signup = gp >= DEAL_BANDWIDTH[0] ? vlook(monthly_ttv, BDM, 2) : 0
     var trail = (LOADING[final_index]/100) * grossProfitBeforeComms;
 
     var annualgp = Math.round((grossProfitBeforeComms * 12) - signup - (trail * 12))
@@ -112,7 +112,7 @@ const calculator = (_params) => {
         cost: Math.round(cost), 
         msf: Math.round(msf), 
         atv, 
-        nTx: Math.floor(ttv/atv),
+        nTx: Math.floor(monthly_ttv/atv),
         signup: signup,
         trail,
         bdm: Math.round(signup + trail),

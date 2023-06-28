@@ -1,25 +1,51 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
-  "icons": [
+    "display_override": ["window-controls-overlay"], 
+    "protocol_handlers": [{"protocol":"mailto","url":"/newEmail?to=%s"}], 
+    "screenshots": [
     {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+        "src": "https://www.pwabuilder.com/assets/screenshots/screen1.png",
+        "sizes": "2880x1800",
+        "type": "image/png",
+        "description": "PWABuilder Home Screen"
     },
     {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192"
+        "src": "https://www.pwabuilder.com/assets/screenshots/screen2.png",
+        "sizes": "2880x1800",
+        "type": "image/png",
+        "description": "PWABuilder Report Card"
     },
     {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512"
+        "src": "https://www.pwabuilder.com/assets/screenshots/screen3.png",
+        "sizes": "2880x1800",
+        "type": "image/png",
+        "description": "Manifest information on the Report Card"
     }
-  ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
-}
+    ], 
+    "orientation": "any", 
+    "short_name": "GP Calc",
+    "description": "GP Calculator for Oolio Sales team",
+    
+    "name": "GP Calculator",
+    "icons": [
+      {
+        "src": "icons/64.png",
+        "sizes": "64x64 32x32 24x24 16x16",
+        "type": "image/x-icon"
+      },
+      {
+        "src": "icons/256.png",
+        "type": "image/png",
+        "sizes": "256x256"
+      },
+      {
+        "src": "icons/512.png",
+        "type": "image/png",
+        "sizes": "512x512"
+      }
+    ],
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#000000",
+    "background_color": "#ffffff"
+  }
+  

@@ -1,0 +1,70 @@
+.ce-paragraph code{
+    font-size: 14px !important;
+    background: rgb(232, 232, 232);
+    padding: 2px 3px;
+    border-radius: 4px;
+}
+.codeflask__textarea{
+    caret-color: white !important;
+    overflow: hidden !important;
+}
+
+.codeflask__textarea:focus{
+    box-shadow: none  !important;
+}
+.editorjs-codeFlask_Wrapper{
+    border: none !important;
+}
+.codeflask {
+    z-index: 0;
+    border: 0.5px solid white;
+    background: #000 !important;
+    color: #bcbed0 !important;
+}
+.language-css{
+color: #bd7e10 !important;
+}
+.codeflask .token.punctuation {
+color: #4a4a4a !important;
+}
+.codeflask .token.keyword {
+color: #7b00e7 !important;
+}
+.codeflask .token.operator {
+color: #c82142 !important;
+}
+.codeflask .token.string {
+color: #33e8b5 !important;
+}
+.codeflask .token.comment {
+color: #556065 !important;
+}
+.codeflask .token.function {
+color: #0d92ff !important;
+}
+.codeflask .token.boolean {
+color: #ce8612 !important;
+}
+.codeflask .token.number {
+color: #ffb700 !important;
+}
+.codeflask .token.selector {
+color: #2095ee !important;
+}
+.codeflask .token.property {
+color: #aec2d3 !important;
+}
+.codeflask .token.important {
+color: #ad50c4 !important;
+}
+.codeflask .token.tag {
+color: #c73737 !important;
+}
+
+.codeflask .token.attr-name {
+color: #c48929 !important;
+}
+
+.codeflask .token.attr-value {
+color: #2a9e47 !important;
+}
