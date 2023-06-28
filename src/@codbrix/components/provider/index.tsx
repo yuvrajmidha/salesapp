@@ -99,6 +99,7 @@ export const Codbrix = ({base_url}: CBXConfigProps) => {
                 }   
                 catch(e:any){
                     localStorage.removeItem("cbx_token")
+                    localStorage.removeItem("cbx_last")
                     setLoading("Couldn't find any view to load. Please refresh to go back")
                 }
                

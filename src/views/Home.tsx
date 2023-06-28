@@ -64,9 +64,9 @@ export default function Test() {
                     <Heading size="md">GP Calculator</Heading>
                 </Box>
                 <Center onClick={() => {
-                    quick_edit.current.openSidebar('user', user._id)
+                    quick_edit.current.openSidebar('user', user?._id)
                 }} rounded={"full"} letterSpacing={"0.8"} fontWeight={"600"} color="white" bgGradient={"linear(to-tr, blue, red)"} boxSize={"2.5rem"}>
-                    {user?.name.split(' ')[0][0]}{user?.name.split(' ')[1][0]}
+                    {user?.name?.split(' ')[0][0]}{user?.name?.split(' ')[1][0]}
                 </Center>
             </HStack>
 
@@ -87,7 +87,7 @@ export default function Test() {
                 <Heading size="sm">All Quotes</Heading>
             </HStack>
             <Route name="gplist/all" view="list" render={(row: any, index: number) => <Box key={index} w="100%" py={"0.15rem"} px={1}>
-                <Card onClick={() => {form?.current?.openForm(row, row.venue_name, true)}} _hover={{bg: "gray.50"}} shadow={"none"}>
+                <Card onClick={() => {form?.current?.openForm(row, row?.venue_name, true)}} _hover={{bg: "gray.50"}} shadow={"none"}>
                     <Flex w="100%">
                         {/* <Center className='cbx-drag' px={2}>
                             <i className='bx bx-grid-vertical' ></i>

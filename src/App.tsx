@@ -16,7 +16,7 @@ import RenderPage from "./views/RenderPage";
 import Operations from "./views/Operations";
 
 var BASE_URL = `https://hellopos.net.au`;
-BASE_URL = `http://localhost:3000` 
+// BASE_URL = `http://localhost:3000` 
 
 export const App = () => {
 
@@ -32,6 +32,7 @@ export const App = () => {
                 <Route path="/" element={<Codbrix base_url={BASE_URL} />}>
                   <Route path='/' element={<Home/>}/>
                   <Route path='/cms' element={<Home/>}/>
+                  <Route path='/cms/gplist' element={<Home/>}/>
                   <Route element={<Layout />}>
                     <Route path="/cms/:page" element={<RenderPage/>} />
                     <Route path="/cms/:page/:id" element={<Operations/>} />
