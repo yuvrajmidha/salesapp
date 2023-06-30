@@ -6,7 +6,7 @@ import {
     chakra, Collapse, IconButton, Input, Select, Slider, SliderFilledTrack, SliderMark, SliderThumb, SliderTrack,
   } from "@chakra-ui/react"
 import { NumberDecrementStepper, NumberIncrementStepper, NumberInput } from '@chakra-ui/number-input'
-import React, { useEffect, useImperativeHandle, useState } from 'react'
+import React, { useEffect, useImperativeHandle, useRef, useState } from 'react'
 
 import form_fields from './form.json';
 import { FaArrowLeft, FaMinus, FaPlus } from 'react-icons/fa'
@@ -70,6 +70,8 @@ const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
 
     const [loading, setLoading] = useState(false)
 
+    const [current, setCurrent] = useState(-1)
+
     useImperativeHandle(ref, (() => ({
         openForm: (data={}, title="Unknown", readonly=true) => {
             if(Object.entries(data).length > 0){
@@ -104,6 +106,60 @@ const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
         setValues(Object.fromEntries(fields.map((field:any) => [field.name, field.default])))
 
     }, [open])
+
+
+    const NumberField = ({field, index}:any) => {
+
+        const inputRef:any = useRef()
+
+        return <FormControl  px={4} py={4}  display={"flex"} gap={2} flexDirection={field?.flow ?? "column"} justifyContent={"space-between"} alignItems={"start"} key={index}>
+        <Box w="100%" textAlign={field.align === "left" ? "left" : "center"}>
+            <FormLabel w="100%"  m={0}>{field?.label}</FormLabel>
+            {/* <Text fontSize={"xs"}>Ex. GST</Text> */}
+        </Box>
+        <NumberInput
+            gap={0}
+            maxW={field?.maxW ?? "48"}
+            w="100%"
+            size="lg"
+            pos={"relative"}
+            rounded="4"
+            name={field.name} 
+            precision={field.precision ?? 0} 
+            value={values[field.name]} 
+            onChange={(str, num) => {setFieldValue(field.name, num)}} 
+            max={field.max} 
+            min={field.min}
+            step={field.step ?? 1}
+            borderWidth={1}
+            display="flex"
+            alignItems={"center"}
+            justifyContent={"space-between"}
+        >
+            
+            <NumberDecrementStepper _disabled={{borderColor: "gray.300", color: "gray.300"}} borderWidth={0} py={"0.3rem"} borderColor={"gray.400"} color="gray.600" px={"1rem"} borderRadius={"4px !important"}>
+                    <FaMinus size="10px"/>
+            </NumberDecrementStepper>
+
+            <Text fontSize={"sm"} as="span">
+                {field.prefix}
+            </Text>
+            
+                
+            <Input  type='number' border={0} w="100%" shadow={"none"} _focus={{shadow: "none"}} textAlign={"center"} fontSize={"sm"} size="sm" name={field.name} px={0} value={values[field.name]} onChange={handleChange}></Input>
+            
+            <Text fontSize={"sm"} as="span">
+                {field.suffix}
+            </Text>
+
+            {/* <NumberInputField px={1} border={0} w="fit-content !important" _focus={{shadow:"none"}} /> */}
+            <NumberIncrementStepper _disabled={{borderColor: "gray.300", color: "gray.300"}} borderWidth={0} borderTop={"none"} py={"0.4rem"} borderColor={"gray.400"} color="gray.600" px={"1rem"} borderRadius={"4px !important"}>
+                    <FaPlus size={"10px"}/>
+            </NumberIncrementStepper>
+        
+        </NumberInput>
+        </FormControl>
+    }
 
 
   return (
@@ -208,55 +264,7 @@ const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
                     </FormControl>}
 
                     {field.type === "number" &&
-                    <FormControl  px={4} py={4}  display={"flex"} gap={2} flexDirection={field?.flow ?? "column"} justifyContent={"space-between"} alignItems={"start"} key={index}>
-                    <Box w="100%" textAlign={field.align === "left" ? "left" : "center"}>
-                        <FormLabel w="100%"  m={0}>{field?.label}</FormLabel>
-                        {/* <Text fontSize={"xs"}>Ex. GST</Text> */}
-                    </Box>
-                    <NumberInput
-                        gap={2}
-                        maxW={field?.maxW ?? "48"}
-                        w="100%"
-                        size="lg"
-                        pos={"relative"}
-                        rounded="4"
-                        name={field.name} 
-                        precision={field.precision ?? 0} 
-                        value={values[field.name]} 
-                        onChange={(str, num) => {setFieldValue(field.name, num)}} 
-                        max={field.max} 
-                        min={field.min}
-                        step={field.step ?? 1}
-                        borderWidth={1}
-                        display="flex"
-                        alignItems={"center"}
-                        justifyContent={"space-between"}
-                    >
-                        
-                        <NumberDecrementStepper _disabled={{borderColor: "gray.300", color: "gray.300"}} borderWidth={0} py={"0.3rem"} borderColor={"gray.400"} color="gray.600" px={"1rem"} borderRadius={"4px !important"}>
-                                <FaMinus size="10px"/>
-                        </NumberDecrementStepper>
-                    
-                        {/* <Flex gap={1} fontWeight={"600"} rounded={"lg"} py={1} justify={"center"} w="100%" align={"center"}>
-                            <Text as="span">
-                            {field.prefix}
-                            </Text>
-                            <Text as="span">
-                            {values[field.name]}
-                            </Text>
-                            <Text as="span">
-                            {field.suffix}
-                            </Text>
-                        </Flex> */}
-                        <Input type='number' border={0} shadow={"none"} _focus={{shadow: "none"}} textAlign={"center"} fontSize={"sm"} size="sm" name={field.name} w="100%" px={0} value={values[field.name]} onChange={handleChange}></Input>
-                        
-                        {/* <NumberInputField px={1} border={0} w="fit-content !important" _focus={{shadow:"none"}} /> */}
-                        <NumberIncrementStepper _disabled={{borderColor: "gray.300", color: "gray.300"}} borderWidth={0} borderTop={"none"} py={"0.4rem"} borderColor={"gray.400"} color="gray.600" px={"1rem"} borderRadius={"4px !important"}>
-                                <FaPlus size={"10px"}/>
-                        </NumberIncrementStepper>
-                    
-                    </NumberInput>
-                    </FormControl>
+                        <NumberField field={field} index={index}/>
                     }
                     {field.type === "value" &&
                     <FormControl  px={4} py={4}  display={"flex"} gap={2} flexDirection={field?.flow ?? "column"} justifyContent={"space-between"} alignItems={"start"} key={index}>
