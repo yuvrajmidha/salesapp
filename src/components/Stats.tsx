@@ -210,8 +210,19 @@ function useLongPress(callback = () => {}, ms = 2000) {
                     </HStack>
                     <Divider/> */}
                 </>}
-                {/* <Box h={4}></Box>
-                {viewBDM && <>
+                <Box h={4}></Box>
+                <Divider/>
+                <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>
+                        <Text>Signup Comms:</Text>
+                        <Text fontWeight={"700"}>${numberWithCommas(stats['signup'])}</Text>
+                    </HStack>
+                    <Divider/>
+                    <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>
+                        <Text>Recurring Comms:</Text>
+                        <Text fontWeight={"700"}>${numberWithCommas(stats['trail'])}</Text>
+                    </HStack>
+                    <Divider/>
+                 {/*{viewBDM && <>
                     <Divider/>
                     <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>
                         <Text>BDM Comms:</Text>
