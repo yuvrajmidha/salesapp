@@ -136,7 +136,7 @@ function useLongPress(callback = () => {}, ms = 2000) {
                         <Box justifySelf={"end"} minW={`${100 - preferred}%`} bg="green.400" h={5}></Box>
                     </Flex>
                     <Flex w="100%">
-                        <Box ml={`${(Number(values['sell_rate']) * 100 / 3).toFixed(2)}%`}>
+                        <Box ml={`${(Number(values['sell_rate']) * 100 / 3)?.toFixed(2)}%`}>
                             <Box transform={"translateX(-50%) translateY(-50%)"}>
                                 <FaCaretUp size="20px"/>
                             </Box>
@@ -151,11 +151,11 @@ function useLongPress(callback = () => {}, ms = 2000) {
                     </VStack> */}
                     <VStack spacing={1} textAlign={"center"} w="100%">
                         <Heading fontSize={"0.7rem"} textTransform={"uppercase"} color="gray.400">Minimum</Heading>
-                        <Heading color="gray.700" size="sm">{Number(minimum * 3/100).toFixed(2)}%</Heading>
+                        <Heading color="gray.700" size="sm">{Number(minimum * 3/100)?.toFixed(2)}%</Heading>
                     </VStack>
                     <VStack spacing={1} textAlign={"center"} w="100%">
                         <Heading fontSize={"0.7rem"} textTransform={"uppercase"} color="gray.400">Preferred</Heading>
-                        <Heading color="gray.700" size="sm">{Number(preferred * 3/100).toFixed(2)}%</Heading>
+                        <Heading color="gray.700" size="sm">{Number(preferred * 3/100)?.toFixed(2)}%</Heading>
                     </VStack>
                 </Flex>
             </Box>
