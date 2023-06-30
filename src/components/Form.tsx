@@ -14,6 +14,7 @@ import Stats from './Stats'
 import { TbCross, TbDashboard } from 'react-icons/tb'
 import { MdCancel, MdCheck, MdEdit, MdOutlineCancel } from 'react-icons/md'
 import { BiX } from 'react-icons/bi'
+import MyAlert from './Alert'
 
 const fields:any = form_fields;
 
@@ -99,7 +100,8 @@ const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
 
     useEffect(() => {
 
-        console.log(values)
+        setLoading(false)
+        setValues(Object.fromEntries(fields.map((field:any) => [field.name, field.default])))
 
     }, [open])
 
@@ -151,6 +153,7 @@ const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
 
         <Collapse in={view === 1}>
             <Box zIndex={300} bg="white" borderRadius={"0"} dropShadow={"none"} >
+                {open && <MyAlert/>}
                 <Box p={4} w="100%">
                     <Box w="100%" textAlign={"left"}>
                         <FormLabel w="100%"  mb={2}>Venue Name</FormLabel>
@@ -337,16 +340,15 @@ const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
                    
                     <Button size="lg" onClick={() => {
                         if(venueName){
+                            setLoading(true)
                             onSave({...Object.fromEntries(Object.entries(values).map(item => item[1] ? [item[0], Number(item[1])] : [item[0], 0])), venue_name: venueName}, () => {
-                                setLoading(false)
-                                setValues(Object.fromEntries(fields.map((field:any) => [field.name, field.default])))
                                 setOpen(false)
                             })
                         }
                         else{
                             alert("Please enter Venue Name to continue.")
                         }
-                    ; setLoading(true)}} isLoading={loading} loadingText="Saving"  colorScheme="blackAlpha" bg="black" w="100%">
+                    ;}} isLoading={loading} loadingText="Saving"  colorScheme="blackAlpha" bg="black" w="100%">
                         Send
                     </Button>
                </Box>
