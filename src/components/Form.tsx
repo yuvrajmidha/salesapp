@@ -5,7 +5,7 @@ import {
     ButtonGroup,
     chakra, Collapse, IconButton, Input, Select, Slider, SliderFilledTrack, SliderMark, SliderThumb, SliderTrack,
   } from "@chakra-ui/react"
-import { NumberDecrementStepper, NumberIncrementStepper, NumberInput } from '@chakra-ui/number-input'
+import { NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField } from '@chakra-ui/number-input'
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react'
 
 import form_fields from './form.json';
@@ -70,8 +70,6 @@ const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
 
     const [loading, setLoading] = useState(false)
 
-    const [current, setCurrent] = useState(-1)
-
     useImperativeHandle(ref, (() => ({
         openForm: (data={}, title="Unknown", readonly=true) => {
             if(Object.entries(data).length > 0){
@@ -110,8 +108,6 @@ const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
 
     const NumberField = ({field, index}:any) => {
 
-        const inputRef:any = useRef()
-
         return <FormControl  px={4} py={4}  display={"flex"} gap={2} flexDirection={field?.flow ?? "column"} justifyContent={"space-between"} alignItems={"start"} key={index}>
         <Box w="100%" textAlign={field.align === "left" ? "left" : "center"}>
             <FormLabel w="100%"  m={0}>{field?.label}</FormLabel>
@@ -146,7 +142,7 @@ const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
             </Text>
             
                 
-            <Input  type='number' border={0} w="100%" shadow={"none"} _focus={{shadow: "none"}} textAlign={"center"} fontSize={"sm"} size="sm" name={field.name} px={0} value={values[field.name]} onChange={handleChange}></Input>
+            <NumberInputField height={"auto"} py={1}  type='number' border={0} w="100%" shadow={"none"} _focus={{shadow: "none"}} textAlign={"center"} fontSize={"sm"} name={field.name} px={0} value={values[field.name]} onChange={handleChange}></NumberInputField>
             
             <Text fontSize={"sm"} as="span">
                 {field.suffix}
