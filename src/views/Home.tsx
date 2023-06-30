@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { Box, Card, Center, Flex, HStack, Heading, IconButton, Input, InputGroup, InputLeftElement, Text, VStack } from '@chakra-ui/react'
 import Route from '../components/Route'
 import { MdAdd, MdSearch } from 'react-icons/md'
@@ -23,6 +23,31 @@ function numberWithCommas(x:any) {
 }
 
 
+function useLongPress(callback = () => {}, ms = 2000) {
+    const [startLongPress, setStartLongPress] = useState(false);
+  
+    useEffect(() => {
+      var timerId:any;
+      if (startLongPress) {
+        timerId = setTimeout(callback, ms);
+      } else {
+        clearTimeout(timerId);
+      }
+  
+      return () => {
+        clearTimeout(timerId);
+      };
+    }, [callback, ms, startLongPress]);
+  
+    return {
+      onMouseDown: () => setStartLongPress(true),
+      onMouseUp: () => setStartLongPress(false),
+      onMouseLeave: () => setStartLongPress(false),
+      onTouchStart: () => setStartLongPress(true),
+      onTouchEnd: () => setStartLongPress(false),
+    };
+  }
+
 // import {CBXDemo} from '@codbrix/demo'
 
 export default function Test() {
@@ -41,6 +66,12 @@ export default function Test() {
     const {showError, showSuccess} = useAlert()
 
     const [params, setParams] = useSearchParams()
+
+    
+
+      const DeleteFn = (id:any) => useLongPress(() => {
+        action.current.openPrompt('gplist/delete', id)
+    }, 2000)
 
     return (
         <>
@@ -86,7 +117,7 @@ export default function Test() {
             <HStack justify={"space-between"} w="100%" px={4}>
                 <Heading size="sm">All Quotes</Heading>
             </HStack>
-            <Route name="gplist/all" view="list" render={(row: any, index: number) => <Box key={index} w="100%" py={"0.15rem"} px={1}>
+            <Route name="gplist/all" view="list" render={(row: any, index: number) => <Box {...DeleteFn(row._id)} key={index} w="100%" py={"0.15rem"} px={1}>
                 <Card onClick={() => {form?.current?.openForm(row, row?.venue_name, true)}} _hover={{bg: "gray.50"}} shadow={"none"}>
                     <Flex w="100%">
                         {/* <Center className='cbx-drag' px={2}>

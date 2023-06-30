@@ -37,7 +37,7 @@ const OperationModal = forwardRef((props, ref) => {
       },
       openPrompt: (route_name:string, id:string) => {
         setRoute({...routes[route_name], name: route_name})
-        setSize({base: "full", sm: "lg"})
+        setSize({sm: "sm"})
         setTitle(routes[route_name].title)
         setID(id)
         onOpen()
@@ -61,7 +61,7 @@ const OperationModal = forwardRef((props, ref) => {
             onClose()
           }}>
           <ModalOverlay backdropFilter={"blur(3px)"} />
-          <ModalContent className={`cbx-${route?.route_type?.toLowerCase()}-modal`} borderWidth={[0, 0, 1]} bg={mode("white", "black")}>
+          <ModalContent m={2} borderWidth={[0, 0, 1]} bg={mode("white", "black")}>
             <ModalHeader borderBottomWidth={1} px={4} py={1}>
               <HStack spacing={0} justify="space-between">
                 <Heading size="sm">{title}</Heading>
