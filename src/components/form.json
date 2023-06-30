@@ -59,7 +59,7 @@
         "step": 1,
         "prefix": "Terminal",
         "suffix": "",
-        "values": ["Choose", "SF12", "P400"]
+        "values": ["Choose", "S1F2", "P400"]
     },
     {
         "type": "value", 
