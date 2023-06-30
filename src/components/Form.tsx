@@ -96,7 +96,7 @@ const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
             }
         }
 
-    }, [venueName])
+    }, [venueName, readonly])
 
     useEffect(() => {
 
@@ -329,7 +329,7 @@ const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
                             </Flex>
                             <Text fontSize={"sm"} fontWeight={"bold"}>
                             {stats['deal_or_no_deal'] === "GREEN" && "Send to Sales Admin"}
-                            {stats['deal_or_no_deal'] === "RED" && "Send to Sales Director"}
+                            {stats['deal_or_no_deal'] === "RED" && "No Deal: Send to Sales Director"}
                             {stats['deal_or_no_deal'] === "YELLOW" && "Pre-approval: Subject to Review "}
                             </Text>
                         </Box>

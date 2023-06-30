@@ -117,14 +117,19 @@ function useLongPress(callback = () => {}, ms = 2000) {
     const DrawerCont = () =>    <>
         <Box pos="relative">
             <Box px={6} mx={2} py={8} textAlign="center" rounded="lg">
-            <Heading py={3} color={`${stats['deal_or_no_deal']?.toLowerCase() ?? 'red'}.500`} size="2xl">
-                    {stats['deal_or_no_deal'] === "GREEN" && "It's a Deal"}
-                    {stats['deal_or_no_deal'] === "YELLOW" && "No Deal"}
-                    {stats['deal_or_no_deal'] === "RED" && "Sorry! No Deal"}
+            <Heading pt={3} pb={2} color={`${stats['deal_or_no_deal']?.toLowerCase() ?? 'red'}.500`} size="xl">
+                {stats['deal_or_no_deal'] === "GREEN" && "Send to Sales Admin"}
+                {stats['deal_or_no_deal'] === "RED" && <>No Deal</>}
+                {stats['deal_or_no_deal'] === "YELLOW" && <>Pre-approval </>}
             </Heading>
-            {stats['deal_or_no_deal'] === "GREEN" && <Text fontWeight={"700"} mt={0}  fontSize="sm">
+            <Heading pb={3} color={`${stats['deal_or_no_deal']?.toLowerCase() ?? 'red'}.600`} size="sm">
+                {stats['deal_or_no_deal'] === "GREEN" && ""}
+                {stats['deal_or_no_deal'] === "RED" && <>Send to Sales Director</>}
+                {stats['deal_or_no_deal'] === "YELLOW" && <>Subject to Review </>}
+            </Heading>
+            {/* {stats['deal_or_no_deal'] === "GREEN" && <Text fontWeight={"700"} mt={0}  fontSize="sm">
                 @ {values['sell_rate']}% Sell Rate
-            </Text>}
+            </Text>} */}
             </Box>
                 <VStack py={3} px={6}>
                     <Flex w="100%" overflow={"hidden"} h={4} rounded="full" justify={"space-between"}>

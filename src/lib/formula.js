@@ -117,6 +117,7 @@ const calculator = (params) => {
         msf: Math.round(msf), 
         terminal_cost: getTerminalCost(terminal_number, terminal_quantity),
         atv, 
+        terminal_unit: TERMINALS[terminal_number],
         nTx: Math.floor(monthly_ttv/atv),
         signup: signup,
         trail,

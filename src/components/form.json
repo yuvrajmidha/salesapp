@@ -51,7 +51,7 @@
     {
         "type": "dropdown", "name": "terminal_number",
         "label": "Terminal Model",
-        "width": "100%",
+        "width": "50%",
         "min": 0,
         "max": 2,
         "default": 0,
@@ -60,6 +60,14 @@
         "prefix": "Terminal",
         "suffix": "",
         "values": ["Choose", "SF12", "P400"]
+    },
+    {
+        "type": "value", 
+        "width": "50%",
+        "name": "terminal_unit",
+        "label": "Unit Price",
+        "prefix": "$",
+        "suffix": ""
     },
     {
         "type": "number", 
@@ -78,7 +86,7 @@
         "type": "value", 
         "width": "50%",
         "name": "terminal_cost",
-        "label": "Terminal Cost",
+        "label": "Total Terminal Cost",
         "prefix": "$",
         "suffix": ""
     },
