@@ -196,7 +196,7 @@ function useLongPress(callback = () => {}, ms = 2000) {
                     <Divider/>
                     <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>
                         <Text>COGS:</Text>
-                        <Text fontWeight={"700"}>${numberWithCommas(stats['cost'])}</Text>
+                        <Text fontWeight={"700"}>${numberWithCommas(stats['cost']?.toFixed())}</Text>
                     </HStack>
                     <Divider/>
                     {/* <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>
@@ -214,12 +214,12 @@ function useLongPress(callback = () => {}, ms = 2000) {
                 <Divider/>
                 <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>
                         <Text>Signup Comms:</Text>
-                        <Text fontWeight={"700"}>${numberWithCommas(stats['signup'])}</Text>
+                        <Text fontWeight={"700"}>${numberWithCommas(stats['signup']?.toFixed())}</Text>
                     </HStack>
                     <Divider/>
                     <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>
                         <Text>Recurring Comms:</Text>
-                        <Text fontWeight={"700"}>${numberWithCommas(stats['trail'])}</Text>
+                        <Text fontWeight={"700"}>${numberWithCommas(stats['trail']?.toFixed())}</Text>
                     </HStack>
                     <Divider/>
                  {/*{viewBDM && <>
