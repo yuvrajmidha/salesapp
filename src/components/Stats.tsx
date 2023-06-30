@@ -150,10 +150,10 @@ function useLongPress(callback = () => {}, ms = 2000) {
                 </VStack>
                 <Box px={3}>
                 <Flex rounded={"xl"} bg="gray.50" py={3} px={2} gap={1} w="100%" justify={"space-between"}>
-                    {/* <VStack spacing={1} textAlign={"center"} w="100%">
+                    <VStack spacing={1} textAlign={"center"} w="100%">
                         <Heading fontSize={"0.7rem"} textTransform={"uppercase"} color="gray.400">Current</Heading>
                         <Heading color="gray.700" size="sm">{Number(values['sell_rate']).toFixed(2)}%</Heading>
-                    </VStack> */}
+                    </VStack>
                     <VStack spacing={1} textAlign={"center"} w="100%">
                         <Heading fontSize={"0.7rem"} textTransform={"uppercase"} color="gray.400">Minimum</Heading>
                         <Heading color="gray.700" size="sm">{Number(minimum * 3/100)?.toFixed(2)}%</Heading>
