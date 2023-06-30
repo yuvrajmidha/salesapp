@@ -3,7 +3,7 @@ import { Box, Center, Divider, Flex,Heading, HStack, Text } from '@chakra-ui/lay
 import {
     Button,
     ButtonGroup,
-    chakra, Collapse, IconButton, Input, Slider, SliderFilledTrack, SliderMark, SliderThumb, SliderTrack,
+    chakra, Collapse, IconButton, Input, Select, Slider, SliderFilledTrack, SliderMark, SliderThumb, SliderTrack,
   } from "@chakra-ui/react"
 import { NumberDecrementStepper, NumberIncrementStepper, NumberInput } from '@chakra-ui/number-input'
 import React, { useEffect, useImperativeHandle, useState } from 'react'
@@ -21,13 +21,13 @@ const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
 
     const [values, setValues]:any = useState(Object.fromEntries(fields.map((field:any) => [field.name, field?.default])))
 
-    // function handleChange(event:any) {
-    //         const target = event.target;
-    //         const value = target.type === 'checkbox' ? target.checked : target.value;
-    //         const name = target.name;
+    function handleChange(event:any) {
+            const target = event.target;
+            const value = target.type === 'checkbox' ? target.checked : target.value;
+            const name = target.name;
         
-    //         setValues({...values, [name]: value})
-    // }
+            setValues({...values, [name]: value})
+    }
 
     const handleValues = (values:any) => {
         
@@ -90,10 +90,7 @@ const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
     useEffect(() => {
 
         if(venueName === ''){
-            if(readonly === false){
-                setView(2)
-            }
-            else{
+            if(readonly){
                 setName("Unknown")
             }
         }
@@ -130,10 +127,10 @@ const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
                                 }
 
                             }} variant={"ghost"} size="sm" aria-label='back'><FaArrowLeft/></IconButton>
-                            <Heading py={2} size="md">{venueName}</Heading>
-                            {(!readonly && view !== 2) && <IconButton onClick={() => {setView(2)}} variant={"ghost"} colorScheme="blue" size="xs" rounded={"full"} aria-label='edit'>
+                            <Heading py={2} size="md">{readonly ? venueName : (view === 0 ? venueName : "GP Calculator")}</Heading>
+                            {/* {(!readonly && view !== 2) && <IconButton onClick={() => {setView(2)}} variant={"ghost"} colorScheme="blue" size="xs" rounded={"full"} aria-label='edit'>
                                 <MdEdit size="1rem"/>
-                            </IconButton>}
+                            </IconButton>} */}
                         </Flex>
                         <Box>
                             {!readonly && <>
@@ -154,14 +151,21 @@ const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
 
         <Collapse in={view === 1}>
             <Box zIndex={300} bg="white" borderRadius={"0"} dropShadow={"none"} >
+                <Box p={4} w="100%">
+                    <Box w="100%" textAlign={"left"}>
+                        <FormLabel w="100%"  mb={2}>Venue Name</FormLabel>
+                        {/* <Text fontSize={"xs"}>Ex. GST</Text> */}
+                    </Box>
+                    <Input size="md" value={venueName} onChange={(e) => {setName(e.target.value)}} placeholder='Enter Venue Name'/>
+                </Box>
                 <chakra.form w="100%" id="myForm" display={"flex"} flexWrap="wrap">
                 {/* <FormControl p={2} width={"100%"} py={3}>
                     <FormLabel>Venue Name</FormLabel>
                     <Input size="sm" name="venue_name" value={values['venue_name']} onChange={handleChange}></Input>
                 </FormControl> */}
                 {fields.map((field:any, index:number) => 
-                <Box w="100%" key={index}>
-                {field.type === 'slider' && <FormControl px={4}  pt={4} pb={8} w={field?.width ?? "100%"} display={"flex"} gap={2} flexDirection={field?.flow ?? "column"} justifyContent={"space-between"} alignItems={"center"} key={index}>
+                <Box w={field?.width ?? "100%"} key={index}>
+                {field.type === 'slider' && <FormControl px={4}  pt={4} pb={8} display={"flex"} gap={2} flexDirection={field?.flow ?? "column"} justifyContent={"space-between"} alignItems={"center"} key={index}>
                     <Box  w="100%" m={0} mb={10} textAlign={field.flow === "row" ? "left" : "left"}>
                         <FormLabel mb={0} fontWeight={"bold"} fontSize={"md"} >{field?.label}</FormLabel>
                         <Text fontSize={"xs"}>Percent of amount deducted on each txn.</Text>
@@ -201,18 +205,18 @@ const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
                     </FormControl>}
 
                     {field.type === "number" &&
-                    <FormControl  px={4} py={4} w={field?.width ?? "100%"} display={"flex"} gap={2} flexDirection={field?.flow ?? "column"} justifyContent={"space-between"} alignItems={"center"} key={index}>
-                    <Box textAlign={field.flow === "row" ? "left" : "center"}>
+                    <FormControl  px={4} py={4}  display={"flex"} gap={2} flexDirection={field?.flow ?? "column"} justifyContent={"space-between"} alignItems={"start"} key={index}>
+                    <Box w="100%" textAlign={field.align === "left" ? "left" : "center"}>
                         <FormLabel w="100%"  m={0}>{field?.label}</FormLabel>
-                        <Text fontSize={"xs"}>Ex. GST</Text>
+                        {/* <Text fontSize={"xs"}>Ex. GST</Text> */}
                     </Box>
                     <NumberInput
                         gap={2}
-                        maxW="48"
+                        maxW={field?.maxW ?? "48"}
                         w="100%"
                         size="lg"
                         pos={"relative"}
-                        rounded="full"
+                        rounded="4"
                         name={field.name} 
                         precision={field.precision ?? 0} 
                         value={values[field.name]} 
@@ -230,7 +234,7 @@ const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
                                 <FaMinus size="10px"/>
                         </NumberDecrementStepper>
                     
-                        <Flex gap={1} fontWeight={"600"} rounded={"lg"} py={1} justify={"center"} w="100%" align={"center"}>
+                        {/* <Flex gap={1} fontWeight={"600"} rounded={"lg"} py={1} justify={"center"} w="100%" align={"center"}>
                             <Text as="span">
                             {field.prefix}
                             </Text>
@@ -240,7 +244,8 @@ const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
                             <Text as="span">
                             {field.suffix}
                             </Text>
-                        </Flex>
+                        </Flex> */}
+                        <Input type='number' border={0} shadow={"none"} _focus={{shadow: "none"}} textAlign={"center"} fontSize={"sm"} size="sm" name={field.name} w="100%" px={0} value={values[field.name]} onChange={handleChange}></Input>
                         
                         {/* <NumberInputField px={1} border={0} w="fit-content !important" _focus={{shadow:"none"}} /> */}
                         <NumberIncrementStepper _disabled={{borderColor: "gray.300", color: "gray.300"}} borderWidth={0} borderTop={"none"} py={"0.4rem"} borderColor={"gray.400"} color="gray.600" px={"1rem"} borderRadius={"4px !important"}>
@@ -250,12 +255,38 @@ const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
                     </NumberInput>
                     </FormControl>
                     }
+                    {field.type === "value" &&
+                    <FormControl  px={4} py={4}  display={"flex"} gap={2} flexDirection={field?.flow ?? "column"} justifyContent={"space-between"} alignItems={"start"} key={index}>
+                        <Box w="100%" textAlign={field.align === "left" ? "left" : "center"}>
+                            <FormLabel w="100%"  m={0}>{field?.label}</FormLabel>
+                            {/* <Text fontSize={"xs"}>Ex. GST</Text> */}
+                        </Box>
+                    
+                        <Flex  gap={1} fontWeight={"600"} rounded={4} py={1} px={1} justify={"start"} w="100%" align={"center"}>
+                            <Text as="span">
+                            {field.prefix}
+                            </Text>
+                            <Text as="span">
+                            {stats[field.name]}
+                            </Text>
+                            <Text as="span">
+                            {field.suffix}
+                            </Text>
+                        </Flex>
+                
+                    </FormControl>
+                    }
                     {field.type === "spacer" && <Center px={4} w="100%" h={field.value}>
                         {field?.divider && <Divider w="100%"/>}
                     </Center>}
-                    {field.type === "dropdown" && <FormControl  py={4} w={field?.width ?? "100%"} display={"flex"} gap={2} flexDirection={field?.flow ?? "column"} justifyContent={"space-between"} alignItems={"center"} key={index}>
+                    {field.type === "dropdown" && <FormControl   py={4} display={"flex"} gap={2} flexDirection={field?.flow ?? "column"} justifyContent={"space-between"} alignItems={"center"} key={index}>
                     <FormLabel w="100%" px={2} textAlign={"left"}  m={0}>{field?.label}</FormLabel>
-                    <Flex overflowX={"auto"}  w="100%">
+                    <Box px={2} w="100%">
+                        <Select value={values[field.name]} onChange={handleChange} name={field.name} pb={0} p={0} className='!pt-0' size="md">
+                            {field?.values?.map((item:any, index:number) => <option key={index} value={index}>{item}</option>)}
+                        </Select>
+                    </Box>
+                    {/* <Flex overflowX={"auto"}  w="100%">
                             <Flex gap={2} px={2}  py={3} w="fit-content">
                             {Array.from({
                                 length: Math.floor((field?.max - field?.min)/field?.step)
@@ -278,21 +309,48 @@ const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
                                     <Text>{field?.suffix}</Text>
                             </HStack>)}
                         </Flex>
-                        </Flex>
+                        </Flex> */}
                         </FormControl>}
                 </Box>
                 )}
                 </chakra.form>
+                <Box pos={"fixed"} zIndex={100} p={2} bottom={2} left={0} right={0}>
+                    <Flex w="100%" borderWidth={1} px={4} py={2} align={"center"} justify={"space-between"} rounded={"lg"} bg="white" shadow={"xl"}>
+                        <Box>
+                            <Flex mb={1} gap={2}>
+                                {['red', 'yellow', 'green'].map((item:any, index:number) => <Box boxSize={4} rounded={"full"} bg={`${item}.500`} opacity={stats['deal_or_no_deal']?.toLowerCase() === item ? 1 : 0.3} key={index}></Box>)}
+                            </Flex>
+                            <Text fontSize={"sm"} fontWeight={"bold"}>
+                            {stats['deal_or_no_deal'] === "GREEN" && "Send to Sales Admin"}
+                            {stats['deal_or_no_deal'] === "RED" && "Send to Sales Director"}
+                            {stats['deal_or_no_deal'] === "YELLOW" && "Pre-approval: Subject to Review "}
+                            </Text>
+                        </Box>
+                        <Button gap={[0, 2]} aria-label='Stats' colorScheme="primary" onClick={() => {setView(0)}}  variant={"solid"} my={1} size="md" rounded={"full"}>
+                            <TbDashboard/>
+                            <Text as="span" display={["none", "block"]}>View</Text>
+                            <Text as="span" ml={2} display={["block"]}>Stats</Text>
+                        </Button>
+                    </Flex>
+                </Box>
                <Box p={2} my={4}>
-                    <Button size="lg" onClick={() => {onSave({...Object.fromEntries(Object.entries(values).map(item => item[1] ? [item[0], Number(item[1])] : [item[0], 0])), venue_name: venueName}, () => {
-                        setLoading(false)
-                        setValues(Object.fromEntries(fields.map((field:any) => [field.name, field.default])))
-                        setOpen(false)
-                    }); setLoading(true)}} isLoading={loading} loadingText="Saving"  colorScheme="blackAlpha" bg="black" w="100%">
-                        Save
+                   
+                    <Button size="lg" onClick={() => {
+                        if(venueName){
+                            onSave({...Object.fromEntries(Object.entries(values).map(item => item[1] ? [item[0], Number(item[1])] : [item[0], 0])), venue_name: venueName}, () => {
+                                setLoading(false)
+                                setValues(Object.fromEntries(fields.map((field:any) => [field.name, field.default])))
+                                setOpen(false)
+                            })
+                        }
+                        else{
+                            alert("Please enter Venue Name to continue.")
+                        }
+                    ; setLoading(true)}} isLoading={loading} loadingText="Saving"  colorScheme="blackAlpha" bg="black" w="100%">
+                        Send
                     </Button>
                </Box>
-                <Box h={4}/>
+                <Box h={20}/>
             </Box>
         </Collapse>
 

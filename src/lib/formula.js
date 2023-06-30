@@ -25,8 +25,8 @@ const AMEX = [
 ]
 
 const TERMINALS = {
-    0:0,
-    1: 20,
+    0:28,
+    1: 25,
     2: 25,
     3: 28,
     4: 30,
@@ -78,7 +78,11 @@ const calculator = (params) => {
 
     
     var msf = sell_rate/100 * monthly_ttv; //Sell Rate * ttv
-    var cost = (getAmexCost(amex_percent) * monthly_ttv) + getTerminalCost(terminal_number, terminal_quantity) + free_pos + free_ba + free_myplace; //
+    var cost = (getAmexCost(amex_percent) * monthly_ttv) + 
+                getTerminalCost(terminal_number, terminal_quantity) + 
+                free_pos + 
+                free_ba + 
+                free_myplace; //
     var grossProfitBeforeComms = msf - cost;
     var gp = (grossProfitBeforeComms / msf) * 100;
 
@@ -111,6 +115,7 @@ const calculator = (params) => {
         grossProfitBeforeComms: Math.round(grossProfitBeforeComms), 
         cost: Math.round(cost), 
         msf: Math.round(msf), 
+        terminal_cost: getTerminalCost(terminal_number, terminal_quantity),
         atv, 
         nTx: Math.floor(monthly_ttv/atv),
         signup: signup,

@@ -119,7 +119,7 @@ function useLongPress(callback = () => {}, ms = 2000) {
             <Box px={6} mx={2} py={8} textAlign="center" rounded="lg">
             <Heading py={3} color={`${stats['deal_or_no_deal']?.toLowerCase() ?? 'red'}.500`} size="2xl">
                     {stats['deal_or_no_deal'] === "GREEN" && "It's a Deal"}
-                    {stats['deal_or_no_deal'] === "YELLOW" && "Try Negotiating"}
+                    {stats['deal_or_no_deal'] === "YELLOW" && "No Deal"}
                     {stats['deal_or_no_deal'] === "RED" && "Sorry! No Deal"}
             </Heading>
             {stats['deal_or_no_deal'] === "GREEN" && <Text fontWeight={"700"} mt={0}  fontSize="sm">
@@ -145,16 +145,16 @@ function useLongPress(callback = () => {}, ms = 2000) {
                 </VStack>
                 <Box px={3}>
                 <Flex rounded={"xl"} bg="gray.50" py={3} px={2} gap={1} w="100%" justify={"space-between"}>
-                    <VStack spacing={1} textAlign={"center"} w="100%">
+                    {/* <VStack spacing={1} textAlign={"center"} w="100%">
                         <Heading fontSize={"0.7rem"} textTransform={"uppercase"} color="gray.400">Current</Heading>
                         <Heading color="gray.700" size="sm">{Number(values['sell_rate']).toFixed(2)}%</Heading>
-                    </VStack>
+                    </VStack> */}
                     <VStack spacing={1} textAlign={"center"} w="100%">
                         <Heading fontSize={"0.7rem"} textTransform={"uppercase"} color="gray.400">Minimum</Heading>
                         <Heading color="gray.700" size="sm">{Number(minimum * 3/100).toFixed(2)}%</Heading>
                     </VStack>
                     <VStack spacing={1} textAlign={"center"} w="100%">
-                        <Heading fontSize={"0.7rem"} textTransform={"uppercase"} color="gray.400">Preffered</Heading>
+                        <Heading fontSize={"0.7rem"} textTransform={"uppercase"} color="gray.400">Preferred</Heading>
                         <Heading color="gray.700" size="sm">{Number(preferred * 3/100).toFixed(2)}%</Heading>
                     </VStack>
                 </Flex>
@@ -164,7 +164,7 @@ function useLongPress(callback = () => {}, ms = 2000) {
             }, 2500)} py={10} px={6}>
                 <Divider/>
                 <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>
-                    <Text>TTV:</Text>
+                    <Text>Monthly TTV:</Text>
                     <Text fontWeight={"700"}>${numberWithCommas(values['monthly_ttv'])}</Text>
                 </HStack>
                 <Divider/>
@@ -174,8 +174,8 @@ function useLongPress(callback = () => {}, ms = 2000) {
                 </HStack>
                 <Divider/>
                 <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>
-                    <Text>Total TX:</Text>
-                    <Text fontWeight={"700"}>{numberWithCommas(stats['nTx'])} Txns</Text>
+                    <Text>Total Transactions:</Text>
+                    <Text fontWeight={"700"}>{numberWithCommas(stats['nTx'])}</Text>
                 </HStack>
                 <Divider/>
                 {admin && <>
@@ -185,6 +185,16 @@ function useLongPress(callback = () => {}, ms = 2000) {
                     </HStack>
                     <Divider/>
                     <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>
+                        <Text>MSF Rate:</Text>
+                        <Text fontWeight={"700"}>{(values['sell_rate'])?.toFixed(2)}%</Text>
+                    </HStack>
+                    <Divider/>
+                    <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>
+                        <Text>COGS:</Text>
+                        <Text fontWeight={"700"}>${numberWithCommas(stats['cost'])}</Text>
+                    </HStack>
+                    <Divider/>
+                    {/* <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>
                         <Text>Gross Profit Before Comms:</Text>
                         <Text fontWeight={"700"}>${numberWithCommas(stats['grossProfitBeforeComms'])}</Text>
                     </HStack>
@@ -193,9 +203,9 @@ function useLongPress(callback = () => {}, ms = 2000) {
                         <Text>Gross Percentage:</Text>
                         <Text fontWeight={"700"}>{numberWithCommas(stats['gp']?.toFixed(2))}%</Text>
                     </HStack>
-                    <Divider/>
+                    <Divider/> */}
                 </>}
-                <Box h={4}></Box>
+                {/* <Box h={4}></Box>
                 {viewBDM && <>
                     <Divider/>
                     <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>
@@ -210,7 +220,7 @@ function useLongPress(callback = () => {}, ms = 2000) {
                     <Text fontWeight={"700"}>${numberWithCommas(stats['annualgp'])}</Text>
                 </HStack>
                 <Divider/>
-                </>}
+                </>} */}
                 {/* <Box mt={4} w="100%">
                     <Button size="lg" bg="black" _hover={{bg: "blackAlpha.800"}} color="white" w="100%">Share</Button>
                 </Box> */}
