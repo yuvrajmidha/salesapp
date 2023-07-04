@@ -62,7 +62,7 @@ const OperationModal = forwardRef((props, ref) => {
           }}>
           <ModalOverlay backdropFilter={"blur(3px)"} />
           <ModalContent m={2} borderWidth={[0, 0, 1]} bg={mode("white", "black")}>
-            <ModalHeader borderBottomWidth={1} px={4} py={1}>
+            <ModalHeader userSelect={"none"} borderBottomWidth={1} px={4} py={1}>
               <HStack spacing={0} justify="space-between">
                 <Heading size="sm">{title}</Heading>
                 <IconButton onClick={() => {onClose()}} variant={"ghost"} aria-label='back'><RiCloseFill size="20px"/></IconButton>

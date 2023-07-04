@@ -117,7 +117,7 @@ export default function Test() {
             <HStack justify={"space-between"} w="100%" px={4}>
                 <Heading size="sm">All Quotes</Heading>
             </HStack>
-            <Route name={user.role === 'sales_user' ? 'gplist/my_quotations' : 'gplist/all'} view="list" render={(row: any, index: number) => <Box {...DeleteFn(row._id)} key={index} w="100%" py={"0.15rem"} px={1}>
+            <Route name={user.role === 'sales_user' ? 'gplist/my_quotations' : 'gplist/all'} view="list" render={(row: any, index: number) => <Box userSelect={"none"} {...DeleteFn(row._id)} key={index} w="100%" py={"0.15rem"} px={1}>
                 <Card onClick={() => {form?.current?.openForm(row, row?.venue_name, true)}} _hover={{bg: "gray.50"}} shadow={"none"}>
                     <Flex w="100%">
                         {/* <Center className='cbx-drag' px={2}>
