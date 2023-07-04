@@ -71,7 +71,7 @@ export default function Test() {
 
         action.current.openPrompt('gplist/delete', id)
 
-    }, 2000)
+    }, 1000)
 
     return (
         <>
