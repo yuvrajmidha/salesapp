@@ -15,8 +15,10 @@ import PublicRoutes from "./views/PublicRoutes";
 import RenderPage from "./views/RenderPage";
 import Operations from "./views/Operations";
 
-var BASE_URL = `https://hellopos.net.au`;
-// BASE_URL = `http://localhost:3000` 
+var BASE_URL = `http://localhost:3000`;
+BASE_URL = `https://hellopos.net.au`; 
+
+
 
 export const App = () => {
 
