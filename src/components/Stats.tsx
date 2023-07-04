@@ -196,7 +196,7 @@ function useLongPress(callback = () => {}, ms = 2000) {
                     <Divider/>
                     <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>
                         <Text>COGS:</Text>
-                        <Text fontWeight={"700"}>${numberWithCommas(stats['cost']?.toFixed())}</Text>
+                        <Text fontWeight={"700"}>${numberWithCommas(stats['cost'])}</Text>
                     </HStack>
                     <Divider/>
                     {/* <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>

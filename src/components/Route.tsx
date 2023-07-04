@@ -37,7 +37,7 @@ export default function Route({_id='', ...route}:any) {
 
     const {isLoading=true, id='', data, status, type="Error", render, message}:Response = response
 
-    return isLoading ? <Loading/> : <Flex direction={"column"} flex={1}>
+    return isLoading ? <Loading/> : <Flex direction={"column"} w="100%" flex={1}>
         {response?.type === "Error" ? <ShowError message={message} code={response?.status.code}/> : <>
             {routes[route.name]?.render === "form" && <Form {...data} id={id} route={{...routes[route.name], name: route.name}} title={routes[route.name].title ? `<b>${routes[route.name].title}</b>` : ''} {...route}/>}
             {routes[route.name]?.render === "list" && <List {...data} id={id} route={{...routes[route.name], name: route.name}} {...route}/>}

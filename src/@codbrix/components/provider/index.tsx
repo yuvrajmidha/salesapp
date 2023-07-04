@@ -118,15 +118,17 @@ export const Codbrix = ({base_url}: CBXConfigProps) => {
 
         if(!route || !routes[route]) return
         else if(isLoggedIn && !routes[route]?.user.includes(user?.role)) return 
-        else cbx.get(route + location.search).then((res:any) => {
-            const pload = {route, res}
-            // setTimeout(() => {
-                dispatch(setCache(pload))
-                setCount(noOfRequests + 1)
-               
-            // }, 1000)
-            setSearching(false)
-        })
+        else {
+            cbx.get(route + location.search).then((res:any) => {
+                const pload = {route, res}
+                // setTimeout(() => {
+                    dispatch(setCache(pload))
+                    setCount(noOfRequests + 1)
+                   
+                // }, 1000)
+                setSearching(false)
+            })
+        }
     }
 
     const callOperation = (route:string, _id?: string) => {

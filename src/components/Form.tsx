@@ -73,7 +73,6 @@ const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
     useImperativeHandle(ref, (() => ({
         openForm: (data={}, title="Unknown", readonly=true) => {
             if(Object.entries(data).length > 0){
-                console.log(values)
                 setValues(data)
             }
             setName(title)
@@ -101,7 +100,9 @@ const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
     useEffect(() => {
 
         setLoading(false)
-        setValues(Object.fromEntries(fields.map((field:any) => [field.name, field.default])))
+        if(!readonly){
+            setValues(Object.fromEntries(fields.map((field:any) => [field.name, field.default])))
+        }
 
     }, [open])
 
