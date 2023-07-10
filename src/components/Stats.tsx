@@ -183,16 +183,17 @@ function useLongPress(callback = () => {}, ms = 2000) {
                     <Text fontWeight={"700"}>{numberWithCommas(stats['nTx'])}</Text>
                 </HStack>
                 <Divider/>
+                <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>
+                        <Text>MSF Rate:</Text>
+                        <Text fontWeight={"700"}>{(values['sell_rate'])?.toFixed(2)}%</Text>
+                    </HStack>
+                    <Divider/>
                     <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>
                         <Text>MSF Revenue:</Text>
                         <Text fontWeight={"700"}>${numberWithCommas(stats['msf'])}</Text>
                     </HStack>
                     <Divider/>
-                    <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>
-                        <Text>MSF Rate:</Text>
-                        <Text fontWeight={"700"}>{(values['sell_rate'])?.toFixed(2)}%</Text>
-                    </HStack>
-                    <Divider/>
+                   
                     <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>
                         <Text>COGS:</Text>
                         <Text fontWeight={"700"}>${numberWithCommas(stats['cost'])}</Text>
