@@ -78,7 +78,6 @@ export default function Test() {
         <OperationModal ref={action}/>
         <QuickEdit ref={quick_edit}/>
         <Form ref={form} onSave={(values:any, callback:any) => {
-            console.log(values)
             cbx.submit('gplist/add', {}, values).then((res:any) => {
                 showSuccess(res?.message)
                 setParams({_updated: "true"})
