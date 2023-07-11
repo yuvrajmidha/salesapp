@@ -40,7 +40,7 @@ const vlook = (value=0, array, column=1) => {
 
 }
 
-const DEAL_BANDWIDTH = [18, 30, 100];
+const DEAL_BANDWIDTH = [18, 30, 101];
 
 const LOADING = [0, 7.5, 10];
 
@@ -52,7 +52,7 @@ const getAmexCost = (percent) => {
     if(item?.length === 1){
         return ((item[0][2]/100) + MC_VC_EFT)
     }else{
-        return 0
+        return 0.008
     }
 } 
 
@@ -77,7 +77,7 @@ const calculator = (params) => {
     } = params
 
     
-    var msf = sell_rate/100 * monthly_ttv; //Sell Rate * ttv
+    var msf = (sell_rate/100) * monthly_ttv; //Sell Rate * ttv
     var cost = (getAmexCost(amex_percent) * monthly_ttv) + 
                 getTerminalCost(terminal_number, terminal_quantity) + 
                 free_pos + 
@@ -108,6 +108,7 @@ const calculator = (params) => {
     var annualgp = Math.round((grossProfitBeforeComms * 12) - signup - (trail * 12))
 
     // console.log(signup, trail, signup + trail)
+    
 
     return {
         deal_or_no_deal: final, 
