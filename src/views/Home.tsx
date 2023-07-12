@@ -97,8 +97,8 @@ export default function Test() {
            
             <HStack justify={"space-between"} align="center" w="100%" py={4} px={2}>
                 <Box>
-                    <Text fontSize={"0.8rem"}>OOLIO Group</Text>
-                    <Heading size="md">GP Calculator</Heading>
+                    <Text fontSize={"0.8rem"}>OOLIO Pay</Text>
+                    <Heading size="md">Calculator</Heading>
                 </Box>
                 <Center onClick={() => {
                     quick_edit.current.openSidebar('user', user?._id)
