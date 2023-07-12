@@ -13,6 +13,8 @@ import { useLocation, useSearchParams } from 'react-router-dom'
 import { SearchField } from '../layout/SearchField'
 import cbx from '../@codbrix/cbx'
 import useAlert from '../@codbrix/hooks/useAlert'
+import axios from 'axios'
+import { sendMail } from '../lib/mail'
 
 function numberWithCommas(x:any) {
     x = x?.toString();
@@ -81,7 +83,12 @@ export default function Test() {
             cbx.submit('gplist/add', {}, values).then((res:any) => {
                 showSuccess(res?.message)
                 setParams({_updated: "true"})
+                sendMail([user.email], values).then(res => {
+                    // showSuccess("Mail Sent to " + user.email)
+                    console.log("Mail Sent to " + user.email)
+                })
                 callback()
+                
             }).catch(err => {
                 showError(err?.message)
             })
@@ -144,9 +151,9 @@ export default function Test() {
             <Box py={6} color="gray.50">
                 End of List
             </Box>
-            <IconButton onClick={() => {form?.current?.openForm({}, "", false)}} size="lg" rounded={"full"} position={"fixed"} right={4} bottom={4} aria-label='add' colorScheme='blackAlpha' bg="black">
+           {user.role !== 'sales_admin' && <IconButton onClick={() => {form?.current?.openForm({}, "", false)}} size="lg" rounded={"full"} position={"fixed"} right={4} bottom={4} aria-label='add' colorScheme='blackAlpha' bg="black">
                 <MdAdd/>
-            </IconButton>
+            </IconButton>}
         </VStack>
         </>
     )

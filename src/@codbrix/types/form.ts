@@ -18,4 +18,5 @@ export type FormProps = {
     submit_position: "BOTTOM" | "TOP-RIGHT" | "BOTTOM-LEFT" | "BOTTOM-RIGHT" | "HIDDEN"
     onSubmit: Function,
     onChange: Function,
+    onSuccess: Function
 }

@@ -72,20 +72,21 @@ export const CBForm = (props: FormProps) => {
   
         setSubmitting(false);
   
-        if (res.type === "Success") {
+        if(res.type === "Success") {
+
           if(!success_redirect){
             navigate(location.pathname + getLocationParams({_updated: 'true'}))
-         }
-         else{
-           //   if redirect has search params
-           if (success_redirect.includes("?")) {
-              navigate(mustache.render(success_redirect + '&_updated=true', values));
-            }
-            // if redirect is plain
-            else {
-              navigate(success_redirect);
-            }
-         }
+          }
+          else{
+            //   if redirect has search params
+            if (success_redirect.includes("?")) {
+                navigate(mustache.render(success_redirect + '&_updated=true', values));
+              }
+              // if redirect is plain
+              else {
+                navigate(success_redirect);
+              }
+          }
   
         } else {
           setErrors(Object.fromEntries(Object.entries(res.errors).map((item: any) => [item[0],item[1].message,])));
@@ -140,7 +141,6 @@ export const CBForm = (props: FormProps) => {
   )
 
   useEffect(() => {
-      console.log(route, route.name)
       if(Object.entries(myValues).length === 0){
         onChange(getInitials(initials))
       }

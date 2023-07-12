@@ -45,6 +45,7 @@ const DEAL_BANDWIDTH = [18, 30, 101];
 const LOADING = [0, 7.5, 10];
 
 const ALERT = ["RED", "YELLOW", "GREEN"];
+const TEXT = ["No Deal", "Subject to Review", "Deal"];
 
 
 const getAmexCost = (percent) => {
@@ -120,10 +121,11 @@ const calculator = (params) => {
         atv, 
         terminal_unit: TERMINALS[terminal_number],
         nTx: Math.floor(monthly_ttv/atv),
-        signup: signup,
-        trail,
+        signup: Math.round(signup),
+        trail: Math.round(trail),
         bdm: Math.round(signup + trail),
-        annualgp: annualgp > 0 ? annualgp : 0
+        annualgp: annualgp > 0 ? annualgp : 0,
+        text: TEXT[final_index]
 
     }
 }
