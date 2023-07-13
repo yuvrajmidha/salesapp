@@ -1,9 +1,8 @@
 import mustache from 'mustache'
 
-const TERMINALS = ["S1F2", "P400"]
-
 export const template = (values) => {
-    return mustache.render(/*html*/`<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    return mustache.render(/*html*/`
+    <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
     <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
     
     <head>
@@ -610,7 +609,7 @@ export const template = (values) => {
                                 <td style="overflow-wrap:break-word;word-break:break-word;padding:4px;font-family:arial,helvetica,sans-serif;" align="left">
     
                                   <div style="font-size: 14px; line-height: 140%; text-align: right; word-wrap: break-word;">
-                                    <p style="line-height: 140%;">$ {{monthly_ttv}}</p>
+                                    <p style="line-height: 140%;">$ {{ttv}}</p>
                                   </div>
     
                                 </td>
@@ -993,7 +992,7 @@ export const template = (values) => {
     
     
     
-              <div class="u-row-container" style="padding: 0px;background-color: transparent">
+              <div class="u-row-container" style="padding: 0px;background-color: transparent; display: {{terminal_display}};">
                 <div class="u-row no-stack" style="Margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;">
                   <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
                     <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:500px;"><tr style="background-color: transparent;"><![endif]-->
@@ -1063,7 +1062,7 @@ export const template = (values) => {
                                 <td style="overflow-wrap:break-word;word-break:break-word;padding:4px;font-family:arial,helvetica,sans-serif;" align="left">
     
                                   <div style="font-size: 14px; line-height: 140%; text-align: right; word-wrap: break-word;">
-                                    <p style="line-height: 140%;">{{terminal_quantity}} x ${TERMINALS[values.terminal_number]} ($28)</p>
+                                    <p style="line-height: 140%;">{{terminal_quantity}} x {{terminal_number}} ($28)</p>
                                   </div>
     
                                 </td>
@@ -1107,11 +1106,7 @@ export const template = (values) => {
                     <!--[if (mso)|(IE)]></tr></table></td></tr></table><![endif]-->
                   </div>
                 </div>
-              </div>
-    
-    
-    
-              <div class="u-row-container" style="padding: 0px;background-color: transparent">
+             
                 <div class="u-row no-stack" style="Margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;">
                   <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
                     <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:500px;"><tr style="background-color: transparent;"><![endif]-->
@@ -1948,7 +1943,68 @@ export const template = (values) => {
                 </div>
               </div>
     
+              <div class="u-row-container" style="padding: 0px;background-color: transparent">
+                <div class="u-row" style="Margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;">
+                  <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
+                    <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:500px;"><tr style="background-color: transparent;"><![endif]-->
     
+                    <!--[if (mso)|(IE)]><td align="center" width="500" style="background-color: #ffffff;width: 500px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;" valign="top"><![endif]-->
+                    <div class="u-col u-col-100" style="max-width: 320px;min-width: 500px;display: table-cell;vertical-align: top;">
+                      <div style="background-color: #ffffff;height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                        <!--[if (!mso)&(!IE)]><!-->
+                        <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
+                          <!--<![endif]-->
+    
+                          <table style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                            <tbody>
+                              <tr>
+                                <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
+    
+                                  <div>
+                                    <strong></strong>
+                                  </div>
+    
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+    
+                          <table style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                            <tbody>
+                              <tr>
+                                <td style="overflow-wrap:break-word;word-break:break-word;padding:2px;font-family:arial,helvetica,sans-serif;" align="left">
+    
+                                  <h3 style="margin: 0px; color: {{color}}; line-height: 120%; text-align: center; word-wrap: break-word; font-size: 18px; font-weight: 400;"><strong>{{text}}</strong></h3>
+    
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+
+                          <table style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
+                            <tbody>
+                              <tr>
+                                <td style="overflow-wrap:break-word;word-break:break-word;padding:10px;font-family:arial,helvetica,sans-serif;" align="left">
+    
+                                  <div>
+                                    <strong></strong>
+                                  </div>
+    
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+    
+                          <!--[if (!mso)&(!IE)]><!-->
+                        </div>
+                        <!--<![endif]-->
+                      </div>
+                    </div>
+                    <!--[if (mso)|(IE)]></td><![endif]-->
+                    <!--[if (mso)|(IE)]></tr></table></td></tr></table><![endif]-->
+                  </div>
+                </div>
+              </div>
     
               <div class="u-row-container" style="padding: 0px;background-color: transparent">
                 <div class="u-row no-stack" style="Margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;">
@@ -2422,121 +2478,7 @@ export const template = (values) => {
     
     
     
-              <div class="u-row-container" style="padding: 0px;background-color: transparent">
-                <div class="u-row no-stack" style="Margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;">
-                  <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
-                    <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:500px;"><tr style="background-color: transparent;"><![endif]-->
-    
-                    <!--[if (mso)|(IE)]><td align="center" width="51" style="background-color: #ffffff;width: 51px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;" valign="top"><![endif]-->
-                    <div class="u-col u-col-10p2" style="max-width: 320px;min-width: 51px;display: table-cell;vertical-align: top;">
-                      <div style="background-color: #ffffff;height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
-                        <!--[if (!mso)&(!IE)]><!-->
-                        <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
-                          <!--<![endif]-->
-    
-                          <table style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
-                            <tbody>
-                              <tr>
-                                <td style="overflow-wrap:break-word;word-break:break-word;padding:0px;font-family:arial,helvetica,sans-serif;" align="left">
-    
-                                  <div>
-    
-                                  </div>
-    
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-    
-                          <!--[if (!mso)&(!IE)]><!-->
-                        </div>
-                        <!--<![endif]-->
-                      </div>
-                    </div>
-                    <!--[if (mso)|(IE)]></td><![endif]-->
-                    <!--[if (mso)|(IE)]><td align="center" width="156" style="background-color: #ffffff;width: 156px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;" valign="top"><![endif]-->
-                    <div class="u-col u-col-31p2" style="max-width: 320px;min-width: 156px;display: table-cell;vertical-align: top;">
-                      <div style="background-color: #ffffff;height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
-                        <!--[if (!mso)&(!IE)]><!-->
-                        <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
-                          <!--<![endif]-->
-    
-                          <table style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
-                            <tbody>
-                              <tr>
-                                <td style="overflow-wrap:break-word;word-break:break-word;padding:4px;font-family:arial,helvetica,sans-serif;" align="left">
-    
-                                  <h4 style="margin: 0px; line-height: 140%; text-align: left; word-wrap: break-word; font-size: 14px; font-weight: 400;"><strong>Deal or No Deal</strong></h4>
-    
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-    
-                          <!--[if (!mso)&(!IE)]><!-->
-                        </div>
-                        <!--<![endif]-->
-                      </div>
-                    </div>
-                    <!--[if (mso)|(IE)]></td><![endif]-->
-                    <!--[if (mso)|(IE)]><td align="center" width="242" style="background-color: #ffffff;width: 242px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;" valign="top"><![endif]-->
-                    <div class="u-col u-col-48p4" style="max-width: 320px;min-width: 242px;display: table-cell;vertical-align: top;">
-                      <div style="background-color: #ffffff;height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
-                        <!--[if (!mso)&(!IE)]><!-->
-                        <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
-                          <!--<![endif]-->
-    
-                          <table style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
-                            <tbody>
-                              <tr>
-                                <td style="overflow-wrap:break-word;word-break:break-word;padding:4px;font-family:arial,helvetica,sans-serif;" align="left">
-    
-                                  <div style="font-size: 14px; line-height: 140%; text-align: right; word-wrap: break-word;">
-                                    <b style="line-height: 140%;">{{text}}</b>
-                                  </div>
-    
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-    
-                          <!--[if (!mso)&(!IE)]><!-->
-                        </div>
-                        <!--<![endif]-->
-                      </div>
-                    </div>
-                    <!--[if (mso)|(IE)]></td><![endif]-->
-                    <!--[if (mso)|(IE)]><td align="center" width="51" style="background-color: #ffffff;width: 51px;padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;" valign="top"><![endif]-->
-                    <div class="u-col u-col-10p2" style="max-width: 320px;min-width: 51px;display: table-cell;vertical-align: top;">
-                      <div style="background-color: #ffffff;height: 100%;width: 100% !important;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
-                        <!--[if (!mso)&(!IE)]><!-->
-                        <div style="box-sizing: border-box; height: 100%; padding: 0px;border-top: 0px solid transparent;border-left: 0px solid transparent;border-right: 0px solid transparent;border-bottom: 0px solid transparent;border-radius: 0px;-webkit-border-radius: 0px; -moz-border-radius: 0px;">
-                          <!--<![endif]-->
-    
-                          <table style="font-family:arial,helvetica,sans-serif;" role="presentation" cellpadding="0" cellspacing="0" width="100%" border="0">
-                            <tbody>
-                              <tr>
-                                <td style="overflow-wrap:break-word;word-break:break-word;padding:0px;font-family:arial,helvetica,sans-serif;" align="left">
-    
-                                  <div>
-    
-                                  </div>
-    
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-    
-                          <!--[if (!mso)&(!IE)]><!-->
-                        </div>
-                        <!--<![endif]-->
-                      </div>
-                    </div>
-                    <!--[if (mso)|(IE)]></td><![endif]-->
-                    <!--[if (mso)|(IE)]></tr></table></td></tr></table><![endif]-->
-                  </div>
-                </div>
-              </div>
+           
     
     
     
@@ -2640,5 +2582,6 @@ export const template = (values) => {
       <!--[if IE]></div><![endif]-->
     </body>
     
-    </html>`, values)
+    </html>
+    `, values)
 }

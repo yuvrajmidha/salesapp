@@ -1,6 +1,15 @@
+import { TERMINALS, TERMINALS_NAME } from "./terminals";
 
 //Constant
 const MC_VC_EFT = 0.008;
+
+function numberWithCommas(x:any) {
+    x = x?.toString();
+    var pattern = /(-?\d+)(\d{3})/;
+    while (pattern.test(x))
+        x = x?.replace(pattern, "$1,$2");
+    return x;
+}
 
 const BDM = [
     [1, 75],
@@ -24,15 +33,6 @@ const AMEX = [
     [15, 25, 0.15]
 ]
 
-const TERMINALS = {
-    0:0,
-    1: 28,
-    2: 28,
-    3: 28,
-    4: 30,
-    5: 33
-}
-
 const vlook = (value=0, array, column=1) => {
 
     const arr = array.filter(item => value >= item[0])
@@ -45,7 +45,9 @@ const DEAL_BANDWIDTH = [18, 30, 101];
 const LOADING = [0, 7.5, 10];
 
 const ALERT = ["RED", "YELLOW", "GREEN"];
-const TEXT = ["No Deal", "Subject to Review", "Deal"];
+const COLOR = ["#ee4949", "#efb02c", "#12c743"];
+
+const TEXT = ["Send to Sales Director", "Subject to Review", "Send to Sales Admin"];
 
 
 const getAmexCost = (percent) => {
@@ -112,21 +114,24 @@ const calculator = (params) => {
     
 
     return {
+        atv, 
         deal_or_no_deal: final, 
         gp: gp > 0 ? gp : 0, 
         grossProfitBeforeComms: Math.round(grossProfitBeforeComms), 
         cost: Math.round(cost), 
         msf: Math.round(msf), 
         terminal_cost: getTerminalCost(terminal_number, terminal_quantity),
-        atv, 
         terminal_unit: TERMINALS[terminal_number],
+        terminal_name: TERMINALS_NAME[terminal_number],
+        terminal_display: terminal_number > 0 ? "block" : "none",
         nTx: Math.floor(monthly_ttv/atv),
         signup: Math.round(signup),
         trail: Math.round(trail),
         bdm: Math.round(signup + trail),
         annualgp: annualgp > 0 ? annualgp : 0,
-        text: TEXT[final_index]
-
+        text: TEXT[final_index],
+        color: COLOR[final_index],
+        ttv: numberWithCommas(monthly_ttv)
     }
 }
 
