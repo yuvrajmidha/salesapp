@@ -1062,7 +1062,7 @@ export const template = (values) => {
                                 <td style="overflow-wrap:break-word;word-break:break-word;padding:4px;font-family:arial,helvetica,sans-serif;" align="left">
     
                                   <div style="font-size: 14px; line-height: 140%; text-align: right; word-wrap: break-word;">
-                                    <p style="line-height: 140%;">{{terminal_quantity}} x {{terminal_number}} ($28)</p>
+                                    <p style="line-height: 140%;">{{terminal_quantity}} x {{terminal_name}} ($28)</p>
                                   </div>
     
                                 </td>
