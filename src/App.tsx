@@ -16,7 +16,7 @@ import RenderPage from "./views/RenderPage";
 import Operations from "./views/Operations";
 
 var BASE_URL = `http://localhost:3000`;
-// BASE_URL = `https://hellopos.net.au`; 
+BASE_URL = `https://hellopos.net.au`; 
 
 
 

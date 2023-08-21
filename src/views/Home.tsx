@@ -99,8 +99,8 @@ export default function Test() {
 
             var emails: any[] | undefined = []
             
-            // const admin_emails = group === 'idealpos' ? ['quotes@idealpos.co'] : ['quotes@bepoz.com.au']
-            // emails = [user.email, ...admin_emails]
+            const admin_emails = group === 'idealpos' ? ['quotes@idealpos.co'] : ['quotes@bepoz.com.au']
+            emails = [user.email, ...admin_emails]
 
             sendMail(emails, values).then(res => {
                 // showSuccess("Mail Sent to " + user.email)
