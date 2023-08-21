@@ -18,8 +18,6 @@ import Operations from "./views/Operations";
 var BASE_URL = `http://localhost:3000`;
 BASE_URL = `https://hellopos.net.au`; 
 
-
-
 export const App = () => {
 
   React.useEffect(() => {
