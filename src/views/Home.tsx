@@ -9,7 +9,7 @@ import { CBXContext } from '../@codbrix/components/provider'
 import { QuickEdit } from '../components/QuickEdit'
 import Form from '../components/Form'
 import useUser from '../@codbrix/hooks/useUser'
-import { useLocation, useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { SearchField } from '../layout/SearchField'
 import cbx from '../@codbrix/cbx'
 import useAlert from '../@codbrix/hooks/useAlert'
@@ -59,15 +59,29 @@ export default function Test() {
 
     const user = useUser()
 
-    const location = useLocation()
+    const [group, setGroup] = useState('oolio')
+
+    const [params, setParams] = useSearchParams()
+
 
     useEffect(() => {
-        localStorage.setItem('cbx_last', location.pathname + document.location.search)
-    }, [location])
+
+        if(user.email.includes('@idealpos')){
+            setGroup('idealpos')
+        }
+        else{
+            setGroup('oolio')
+        }
+
+    }, [user])
+
+
+    // useEffect(() => {
+    //     localStorage.setItem('cbx_last', location.pathname + document.location.search)
+    // }, [location])
     
     const {showError, showSuccess} = useAlert()
 
-    const [params, setParams] = useSearchParams()
 
     const DeleteFn = (id:any) => useLongPress(() => {
 
@@ -79,20 +93,48 @@ export default function Test() {
         <>
         <OperationModal ref={action}/>
         <QuickEdit ref={quick_edit}/>
-        <Form ref={form} onSave={(values:any, callback:any) => {
+        <Form ref={form} 
+        group={group}
+        onMailSend={(values:any) => {
+
+            var emails: any[] | undefined = []
+            
+            // const admin_emails = group === 'idealpos' ? ['quotes@idealpos.co'] : ['quotes@bepoz.com.au']
+            // emails = [user.email, ...admin_emails]
+
+            sendMail(emails, values).then(res => {
+                // showSuccess("Mail Sent to " + user.email)
+                console.log("Mail Sent to " + user.email)
+            })
+
+        }} 
+        onSave={(values:any, callback:any) => {
             cbx.submit('gplist/add', {}, values).then((res:any) => {
                 showSuccess(res?.message)
                 setParams({_updated: "true"})
-                sendMail([user.email], values).then(res => {
-                    // showSuccess("Mail Sent to " + user.email)
-                    console.log("Mail Sent to " + user.email)
-                })
+             
                 callback()
                 
             }).catch(err => {
                 showError(err?.message)
             })
-        }}/>
+        }}
+        
+        onEdit={(values:any, id:string, callback:any) => {
+            cbx.submit('gplist/details', {
+                _id: id
+            }, values).then((res:any) => {
+                showSuccess(res?.message)
+                setParams({_updated: "true"})
+             
+                callback()
+                
+            }).catch(err => {
+                showError(err?.message)
+            })
+        }}
+        
+        />
         <VStack bg="#f2f3f7" p={2} minH="100vh" w="100%">
            
             <HStack justify={"space-between"} align="center" w="100%" py={4} px={2}>
@@ -151,9 +193,9 @@ export default function Test() {
             <Box py={6} color="gray.50">
                 End of List
             </Box>
-           {user.role !== 'sales_admin' && <IconButton onClick={() => {form?.current?.openForm({}, "", false)}} size="lg" rounded={"full"} position={"fixed"} right={4} bottom={4} aria-label='add' colorScheme='blackAlpha' bg="black">
+           <IconButton onClick={() => {form?.current?.openForm({}, "", false)}} size="lg" rounded={"full"} position={"fixed"} right={4} bottom={4} aria-label='add' colorScheme='blackAlpha' bg="black">
                 <MdAdd/>
-            </IconButton>}
+            </IconButton>
         </VStack>
         </>
     )

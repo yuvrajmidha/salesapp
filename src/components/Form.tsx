@@ -4,21 +4,23 @@ import {
     Button,
     ButtonGroup,
     chakra, Collapse, IconButton, Input, Select, Slider, SliderFilledTrack, SliderMark, SliderThumb, SliderTrack,
+    VStack
   } from "@chakra-ui/react"
 import { NumberDecrementStepper, NumberIncrementStepper, NumberInput, NumberInputField } from '@chakra-ui/number-input'
 import React, { useEffect, useImperativeHandle, useRef, useState } from 'react'
 
 import form_fields from './form.json';
-import { FaArrowLeft, FaMinus, FaPlus } from 'react-icons/fa'
+import { FaArrowLeft, FaMinus, FaPlus, FaTrash } from 'react-icons/fa'
 import Stats from './Stats'
 import { TbCross, TbDashboard } from 'react-icons/tb'
 import { MdCancel, MdCheck, MdEdit, MdOutlineCancel } from 'react-icons/md'
 import { BiX } from 'react-icons/bi'
 import MyAlert from './Alert'
+import Confirmation from '../@codbrix/components/dialog/Confirmation'
 
 const fields:any = form_fields;
 
-const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
+const Form = React.forwardRef(({onSave=() => {}, onEdit=()=>{}, onMailSend=()=>{}, group='oolio'}:any, ref:any) => {
 
     const [values, setValues]:any = useState(Object.fromEntries(fields.map((field:any) => [field.name, field?.default])))
 
@@ -68,23 +70,18 @@ const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
     const [open, setOpen] = useState(false)
     const [venueName, setName] = useState('Unknown')
 
-    const [readonly, setReadonly] = useState(false)
+    const [edit, setEdit] = useState(false)
 
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading]:any = useState(false)
 
     useImperativeHandle(ref, (() => ({
-        openForm: (data={}, title="Unknown", readonly=true) => {
+        openForm: (data={}, title="Unknown", edit=false) => {
             if(Object.entries(data).length > 0){
                 setValues(data)
             }
             setName(title)
-            setReadonly(readonly)
-            if(readonly){
-                setView(0)
-            }
-            else{
-                setView(1)
-            }
+            setEdit(edit)
+            setView(1)
             setOpen(true)
         }
     })))
@@ -92,25 +89,21 @@ const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
     useEffect(() => {
 
         if(venueName === ''){
-            if(readonly){
+            if(edit){
                 setName("Unknown")
             }
         }
 
-    }, [venueName, readonly])
+    }, [venueName, edit])
 
     useEffect(() => {
 
         setLoading(false)
-        if(!readonly){
+        if(!edit){
             setValues(Object.fromEntries(fields.map((field:any) => [field.name, field.default])))
         }
 
     }, [open])
-
-
-  
-
 
   return (
     <Box pos={"fixed"} h="100vh" bg="white" zIndex={250} transform={!open ? "translateY(100%)" : ""} top={0} right={0}
@@ -124,8 +117,8 @@ const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
                 <HStack bg="white" borderRadius={"0.5rem 0.5rem 0 0"} justify={"space-between"} pos="relative" transition={"0.3s"} py={1} px={1} spacing={4}>
                         {/* <Box></Box> */}
                         <Flex gap={1} align={"center"}>
-                            <IconButton opacity={(view !== 0 || readonly) ? 1 : 0} transition={"0.5s"} ml={(view !== 0 || readonly) ? 1 : "-1.5rem"} onClick={() => {
-                                if(!readonly){
+                            <IconButton opacity={(view !== 0 || edit) ? 1 : 0} transition={"0.5s"} ml={(view !== 0 || edit) ? 1 : "-1.5rem"} onClick={() => {
+                                if(!edit){
                                     // eslint-disable-next-line no-restricted-globals
                                     var flag:any = confirm("Your changes will be unsaved. Are you sure you want to leave?")
                                     setOpen(!flag)
@@ -135,14 +128,13 @@ const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
                                 }
 
                             }} variant={"ghost"} size="sm" aria-label='back'><FaArrowLeft/></IconButton>
-                            <Heading py={2} size="md">{readonly ? venueName : (view === 0 ? venueName : "GP Calculator")}</Heading>
-                            {/* {(!readonly && view !== 2) && <IconButton onClick={() => {setView(2)}} variant={"ghost"} colorScheme="blue" size="xs" rounded={"full"} aria-label='edit'>
+                            <Heading py={2} size="md">{edit ? venueName : (view === 0 ? venueName : "GP Calculator")}</Heading>
+                            {/* {(!edit && view !== 2) && <IconButton onClick={() => {setView(2)}} variant={"ghost"} colorScheme="blue" size="xs" rounded={"full"} aria-label='edit'>
                                 <MdEdit size="1rem"/>
                             </IconButton>} */}
                         </Flex>
                         <Box>
-                            {!readonly && <>
-                                {view === 0 ? <Button gap={[2, 2]} aria-label='Stats' onClick={() => {setView(1)}}  variant={"ghost"} my={1} size="sm" rounded={"full"}>
+                            {view === 0 ? <Button gap={[2, 2]} aria-label='Stats' onClick={() => {setView(1)}}  variant={"ghost"} my={1} size="sm" rounded={"full"}>
                                     <BiX size="18px"/>
                                     <Text as="span" display={["block"]}>Hide</Text>
                                 </Button> : <Button gap={[0, 2]} aria-label='Stats' onClick={() => {setView(0)}}  variant={"ghost"} my={1} size="sm" rounded={"full"}>
@@ -150,7 +142,6 @@ const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
                                 <Text as="span" display={["none", "block"]}>View</Text>
                                 <Text as="span" ml={2} display={["block"]}>Stats</Text>
                             </Button>}
-                            </>}
                         </Box>
                 </HStack>
         </Box>
@@ -160,13 +151,13 @@ const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
         <Collapse in={view === 1}>
             <Box zIndex={300} bg="white" borderRadius={"0"} dropShadow={"none"} >
                 {open && <MyAlert/>}
-                <Box p={4} w="100%">
+                {!edit && <Box p={4} w="100%">
                     <Box w="100%" textAlign={"left"}>
                         <FormLabel w="100%"  mb={2}>Venue Name</FormLabel>
                         {/* <Text fontSize={"xs"}>Ex. GST</Text> */}
                     </Box>
                     <Input size="md" value={venueName} onChange={(e) => {setName(e.target.value)}} placeholder='Enter Venue Name'/>
-                </Box>
+                </Box>}
                 <chakra.form w="100%" id="myForm" display={"flex"} flexWrap="wrap">
                 {/* <FormControl p={2} width={"100%"} py={3}>
                     <FormLabel>Venue Name</FormLabel>
@@ -218,7 +209,7 @@ const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
                     {field.type === "number" &&
                         <FormControl  px={4} py={4}  display={"flex"} gap={2} flexDirection={field?.flow ?? "column"} justifyContent={"space-between"} alignItems={"start"} key={index}>
                         <Box w="100%" textAlign={field.align === "left" ? "left" : "center"}>
-                            <FormLabel w="100%"  m={0}>{field?.label}</FormLabel>
+                            <FormLabel w="100%"  m={0}>{field.name === 'free_ba' ? `${group === 'idealpos' ? field?.label?.replace('BA+', 'A+') : field.label}` : field?.label}</FormLabel>
                             {/* <Text fontSize={"xs"}>Ex. GST</Text> */}
                         </Box>
                         <NumberInput
@@ -347,19 +338,53 @@ const Form = React.forwardRef(({onSave=() => {}}:any, ref:any) => {
                 </Box>
                <Box p={2} my={4}>
                    
-                    <Button size="lg" onClick={() => {
-                        if(venueName){
+                    {edit ? <ButtonGroup gap={0} w="100%">
+                        <Confirmation title="Send Email" text="Do you want to send email too?" discardText="Save Only" confirmText="Send Email" onConfirm={(callback:any) => {
                             setLoading(true)
-                            onSave({...Object.fromEntries(Object.entries(values).map(item => item[1] ? [item[0], Number(item[1])] : [item[0], 0])), venue_name: venueName}, () => {
+                            onEdit({...Object.fromEntries(Object.entries(values).map(item => item[1] ? [item[0], Number(item[1])] : [item[0], 0])), venue_name: venueName}, values._id, () => {
+                                setOpen(false)
+                                callback()
+                                onMailSend({...Object.fromEntries(Object.entries(values).map(item => item[1] ? [item[0], Number(item[1])] : [item[0], 0])), venue_name: venueName})
+                            })
+                        }} onDiscard={() => {
+                            setLoading(true)
+                            onEdit({...Object.fromEntries(Object.entries(values).map(item => item[1] ? [item[0], Number(item[1])] : [item[0], 0])), venue_name: venueName},values._id, () => {
                                 setOpen(false)
                             })
-                        }
-                        else{
-                            alert("Please enter Venue Name to continue.")
-                        }
-                    ;}} isLoading={loading} loadingText="Saving"  colorScheme="blackAlpha" bg="black" w="100%">
-                        Send
-                    </Button>
+                        }} w="100%">
+                            <Button isLoading={loading} loadingText="Sending"  colorScheme="blackAlpha" bg="black" w="100%">
+                                Save 
+                            </Button>
+                        </Confirmation>
+                    </ButtonGroup> : <VStack>
+                        <Button size="lg" onClick={() => {
+                            if(venueName){
+                                setLoading(1)
+                                onSave({...Object.fromEntries(Object.entries(values).map(item => item[1] ? [item[0], Number(item[1])] : [item[0], 0])), venue_name: venueName}, () => {
+                                    setOpen(false)
+                                    onMailSend({...Object.fromEntries(Object.entries(values).map(item => item[1] ? [item[0], Number(item[1])] : [item[0], 0])), venue_name: venueName})
+                                })
+                            }
+                            else{
+                                alert("Please enter Venue Name to continue.")
+                            }
+                        ;}} isLoading={loading === 1} loadingText="Saving"  colorScheme="blackAlpha" bg="black" w="100%">
+                            Send
+                        </Button>
+                        <Button onClick={() => {
+                            if(venueName){
+                                setLoading(2)
+                                onSave({...Object.fromEntries(Object.entries(values).map(item => item[1] ? [item[0], Number(item[1])] : [item[0], 0])), venue_name: venueName}, () => {
+                                    setOpen(false)
+                                })
+                            }
+                            else{
+                                alert("Please enter Venue Name to continue.")
+                            }
+                        ;}} isLoading={loading === 2} loadingText="Saving" variant={"outline"}  colorScheme="blackAlpha" borderColor="black" color="black" w="100%">
+                            Save as Draft
+                        </Button>
+                    </VStack>}
                </Box>
                 <Box h={40}/>
             </Box>
