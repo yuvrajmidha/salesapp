@@ -29,7 +29,7 @@ function numberWithCommas(x:any) {
 }
 
 
-const Stats = ({values, props={}, view=false, onChange=() => {}}:any) =>  {
+const Stats = ({values, props={}, view=false, onChange=() => {}, group='oolio'}:any) =>  {
 
     const [stats, setStats]:any = useState({});
 
@@ -210,10 +210,11 @@ function useLongPress(callback = () => {}, ms = 2000) {
                     </HStack>
                     <Divider/> */}
                 <Box h={4}></Box>
-                <Divider/>
-                <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>
-                        <Text>Signup Comms:</Text>
-                        <Text fontWeight={"700"}>${numberWithCommas(stats['signup']?.toFixed())}</Text>
+               {(user?.role !== 'sales_user' || group !== 'idealpos') && <>
+                    <Divider/>
+                    <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>
+                            <Text>Signup Comms:</Text>
+                            <Text fontWeight={"700"}>${numberWithCommas(stats['signup']?.toFixed())}</Text>
                     </HStack>
                     <Divider/>
                     <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>
@@ -221,6 +222,7 @@ function useLongPress(callback = () => {}, ms = 2000) {
                         <Text fontWeight={"700"}>${numberWithCommas(stats['trail']?.toFixed())}</Text>
                     </HStack>
                     <Divider/>
+                </>}
                  {/*{viewBDM && <>
                     <Divider/>
                     <HStack fontSize={"0.90rem"} w="100%" justify={"space-between"}>

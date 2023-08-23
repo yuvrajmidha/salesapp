@@ -158,7 +158,7 @@ const Form = React.forwardRef(({onSave=() => {}, onEdit=()=>{}, onMailSend=()=>{
                 </HStack>
         </Box>
 
-        <Stats values={values} view={view === 0} onChange={setStats}/>
+        <Stats values={values} group={group} view={view === 0} onChange={setStats}/>
 
         <Collapse in={view === 1}>
             <Box zIndex={300} bg="white" borderRadius={"0"} dropShadow={"none"} >
