@@ -1,7 +1,7 @@
 import { template } from "./template";
 import calc from './formula';
 
-var url = "https://bepoz.vercel.app/api/mail_2";
+var url = "https://bepoz.vercel.app/api/mail";
 // url = 'http://localhost:3000/api/mail'
 
 export const sendMail = (email=[], values, group="oolio") => {
@@ -12,6 +12,7 @@ export const sendMail = (email=[], values, group="oolio") => {
     "to": [
         ...email,
     ],
+    "from": "OolioPay Calculator <calc-mail-service@hellopos.net.au>",
     "subject": "Received an new quote from " + values['venue_name'],
     "message": template({
         ...values,

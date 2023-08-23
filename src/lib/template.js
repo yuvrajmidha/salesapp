@@ -2482,7 +2482,7 @@ export const template = (values, group) => {
     
     
     
-              <div class="u-row-container" style="padding: 0px;background-color: transparent; display: ${group === 'idealpos' ? 'none' : 'block'};">
+              <div class="u-row-container" style="padding: 0px;background-color: transparent; display: ${group === 'idealpos' ? 'block' : 'block'};">
                 <div class="u-row" style="Margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;">
                   <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
                     <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:500px;"><tr style="background-color: transparent;"><![endif]-->

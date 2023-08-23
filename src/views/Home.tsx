@@ -144,8 +144,8 @@ export default function Test() {
                 </Box>
                 <Center onClick={() => {
                     quick_edit.current.openSidebar('user', user?._id)
-                }} rounded={"full"} letterSpacing={"0.8"} fontWeight={"600"} color="white" bgGradient={"linear(to-tr, blue, red)"} boxSize={"2.5rem"}>
-                    {user?.name?.split(' ')[0][0]}{user?.name?.split(' ')[1][0]}
+                }} rounded={"full"} letterSpacing={"0.8"} textTransform={"uppercase"} fontWeight={"600"} color="white" bgGradient={"linear(to-tr, blue, red)"} boxSize={"2.5rem"}>
+                    {user?.name.split(' ').length > 1 ? <>{user?.name?.split(' ')[0][0]}{user?.name?.split(' ')[1][0]}</> : <>{user?.name[0]}</>}
                 </Center>
             </HStack>
 
