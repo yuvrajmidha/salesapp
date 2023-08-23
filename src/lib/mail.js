@@ -1,8 +1,8 @@
 import { template } from "./template";
 import calc from './formula';
 
-var url = "https://bepoz.vercel.app/api/mail";
-// url = 'http://localhost:3000/api/mail'
+var url = "https://bepoz.vercel.app/api/mail_2";
+url = 'http://localhost:3001/api/mail'
 
 export const sendMail = (email=[], values, group="oolio") => {
     var myHeaders = new Headers();
