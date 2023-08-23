@@ -102,7 +102,7 @@ export default function Test() {
             const admin_emails = group === 'idealpos' ? ['quotes@idealpos.co'] : ['quotes@bepoz.com.au']
             emails = [user.email, ...admin_emails]
 
-            sendMail(emails, values).then(res => {
+            sendMail(emails, values, group).then(res => {
                 // showSuccess("Mail Sent to " + user.email)
                 console.log("Mail Sent to " + user.email)
             })

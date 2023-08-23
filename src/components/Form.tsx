@@ -74,6 +74,18 @@ const Form = React.forwardRef(({onSave=() => {}, onEdit=()=>{}, onMailSend=()=>{
 
     const [loading, setLoading]:any = useState(false)
 
+    const getFieldLabel = (name:any, label:any) => {
+        if(name === 'free_ba'){
+            return `${group === 'idealpos' ? label?.replace('BA+', 'A+') : label}`
+        }
+        else if(name === 'free_myplace'){
+            return `${group === 'idealpos' ? label?.replace('MyPlace', 'Loyalty') : label}`
+        }
+        else{
+            return label
+        }
+    }
+
     useImperativeHandle(ref, (() => ({
         openForm: (data={}, title="Unknown", edit=false) => {
             if(Object.entries(data).length > 0){
@@ -209,7 +221,7 @@ const Form = React.forwardRef(({onSave=() => {}, onEdit=()=>{}, onMailSend=()=>{
                     {field.type === "number" &&
                         <FormControl  px={4} py={4}  display={"flex"} gap={2} flexDirection={field?.flow ?? "column"} justifyContent={"space-between"} alignItems={"start"} key={index}>
                         <Box w="100%" textAlign={field.align === "left" ? "left" : "center"}>
-                            <FormLabel w="100%"  m={0}>{field.name === 'free_ba' ? `${group === 'idealpos' ? field?.label?.replace('BA+', 'A+') : field.label}` : field?.label}</FormLabel>
+                            <FormLabel w="100%"  m={0}>{getFieldLabel(field.name, field.label)}</FormLabel>
                             {/* <Text fontSize={"xs"}>Ex. GST</Text> */}
                         </Box>
                         <NumberInput
@@ -217,6 +229,7 @@ const Form = React.forwardRef(({onSave=() => {}, onEdit=()=>{}, onMailSend=()=>{
                             maxW={field?.maxW ?? "48"}
                             w="100%"
                             size="lg"
+                            py={1}
                             pos={"relative"}
                             rounded="4"
                             name={field.name} 
@@ -234,7 +247,7 @@ const Form = React.forwardRef(({onSave=() => {}, onEdit=()=>{}, onMailSend=()=>{
                             justifyContent={"space-between"}
                         >
                             
-                            <NumberDecrementStepper _disabled={{borderColor: "gray.300", color: "gray.300"}} borderWidth={0} py={"0.3rem"} borderColor={"gray.400"} color="gray.600" px={"1rem"} borderRadius={"4px !important"}>
+                            <NumberDecrementStepper _disabled={{borderColor: "gray.300", color: "gray.300"}} borderWidth={0} py={"0.5rem"} bg="gray.100" mx={2} borderColor={"gray.400"} color="gray.600" px={"0.8rem"} borderRadius={"4px !important"}>
                                     <FaMinus size="10px"/>
                             </NumberDecrementStepper>
                 
@@ -249,7 +262,7 @@ const Form = React.forwardRef(({onSave=() => {}, onEdit=()=>{}, onMailSend=()=>{
                                 {field.suffix}
                             </Text>
                 
-                            <NumberIncrementStepper _disabled={{borderColor: "gray.300", color: "gray.300"}} borderWidth={0} borderTop={"none"} py={"0.4rem"} borderColor={"gray.400"} color="gray.600" px={"1rem"} borderRadius={"4px !important"}>
+                            <NumberIncrementStepper _disabled={{borderColor: "gray.300", color: "gray.300"}} borderWidth={0} borderTop={"none"} py={"0.5rem"} bg="gray.100" mx={2} borderColor={"gray.400"} color="gray.600" px={"0.8rem"} borderRadius={"4px !important"}>
                                     <FaPlus size={"10px"}/>
                             </NumberIncrementStepper>
                         

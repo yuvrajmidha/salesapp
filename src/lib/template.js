@@ -1,6 +1,6 @@
 import mustache from 'mustache'
 
-export const template = (values) => {
+export const template = (values, group) => {
     return mustache.render(/*html*/`
     <!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
     <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -1386,7 +1386,7 @@ export const template = (values) => {
                               <tr>
                                 <td style="overflow-wrap:break-word;word-break:break-word;padding:4px;font-family:arial,helvetica,sans-serif;" align="left">
     
-                                  <h4 style="margin: 0px; line-height: 140%; text-align: left; word-wrap: break-word; font-size: 14px; font-weight: 400;"><strong>Subsidised BA+</strong></h4>
+                                  <h4 style="margin: 0px; line-height: 140%; text-align: left; word-wrap: break-word; font-size: 14px; font-weight: 400;"><strong>Subsidised ${group === 'idealpos' ? '' : "B"}A+</strong></h4>
     
                                 </td>
                               </tr>
@@ -1504,7 +1504,7 @@ export const template = (values) => {
                               <tr>
                                 <td style="overflow-wrap:break-word;word-break:break-word;padding:4px;font-family:arial,helvetica,sans-serif;" align="left">
     
-                                  <h4 style="margin: 0px; line-height: 140%; text-align: left; word-wrap: break-word; font-size: 14px; font-weight: 400;"><strong>Subsidised MyPlace</strong></h4>
+                                  <h4 style="margin: 0px; line-height: 140%; text-align: left; word-wrap: break-word; font-size: 14px; font-weight: 400;"><strong>Subsidised ${group === 'idealpos' ? 'Loyalty' : 'MyPlace'}</strong></h4>
     
                                 </td>
                               </tr>
@@ -2242,7 +2242,7 @@ export const template = (values) => {
     
     
     
-              <div class="u-row-container" style="padding: 0px;background-color: transparent">
+              <div class="u-row-container" style="padding: 0px;background-color: transparent; display: ${group === 'idealpos' ? 'none' : 'block'};">
                 <div class="u-row no-stack" style="Margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;">
                   <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
                     <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:500px;"><tr style="background-color: transparent;"><![endif]-->
@@ -2360,7 +2360,7 @@ export const template = (values) => {
     
     
     
-              <div class="u-row-container" style="padding: 0px;background-color: transparent">
+              <div class="u-row-container" style="padding: 0px;background-color: transparent; display: ${group === 'idealpos' ? 'none' : 'block'};">
                 <div class="u-row no-stack" style="Margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;">
                   <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
                     <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:500px;"><tr style="background-color: transparent;"><![endif]-->
@@ -2482,7 +2482,7 @@ export const template = (values) => {
     
     
     
-              <div class="u-row-container" style="padding: 0px;background-color: transparent">
+              <div class="u-row-container" style="padding: 0px;background-color: transparent; display: ${group === 'idealpos' ? 'none' : 'block'};">
                 <div class="u-row" style="Margin: 0 auto;min-width: 320px;max-width: 500px;overflow-wrap: break-word;word-wrap: break-word;word-break: break-word;background-color: transparent;">
                   <div style="border-collapse: collapse;display: table;width: 100%;height: 100%;background-color: transparent;">
                     <!--[if (mso)|(IE)]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0px;background-color: transparent;" align="center"><table cellpadding="0" cellspacing="0" border="0" style="width:500px;"><tr style="background-color: transparent;"><![endif]-->

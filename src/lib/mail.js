@@ -1,10 +1,10 @@
 import { template } from "./template";
 import calc from './formula';
 
-var url = "https://bepoz.vercel.app/api/mail";
+var url = "https://bepoz.vercel.app/api/mail_2";
 // url = 'http://localhost:3000/api/mail'
 
-export const sendMail = (email=[], values) => {
+export const sendMail = (email=[], values, group="oolio") => {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
@@ -16,7 +16,7 @@ export const sendMail = (email=[], values) => {
     "message": template({
         ...values,
         ...calc(values)
-    })
+    }, group)
     });
 
     var requestOptions = {
