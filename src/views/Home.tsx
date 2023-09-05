@@ -69,6 +69,9 @@ export default function Test() {
         if(user.email.includes('@idealpos')){
             setGroup('idealpos')
         }
+        else if(['pia.davis@ooliogroup.com', 'tim.morgan@mslsolutions.com'].includes(user?.email)){
+            setGroup('swiftpos')
+        }
         else{
             setGroup('oolio')
         }
@@ -99,7 +102,18 @@ export default function Test() {
 
             var emails: any[] | undefined = []
             
-            const admin_emails = group === 'idealpos' ? ['quotes@idealpos.co'] : ['quotes@bepoz.com.au']
+            var admin_emails = []
+
+            if(group === 'idealpos'){
+                admin_emails = ['quotes@idealpos.co']
+            }
+            else if(group === 'swiftpos'){
+                admin_emails = ['pia.davis@ooliogroup.com', 'tim.morgan@mslsolutions.com']
+            }
+            else{
+                admin_emails = ['quotes@bepoz.com.au']
+            }
+
             emails = [user.email, ...admin_emails]
 
             sendMail(emails, values, group).then(res => {

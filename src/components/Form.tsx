@@ -76,10 +76,10 @@ const Form = React.forwardRef(({onSave=() => {}, onEdit=()=>{}, onMailSend=()=>{
 
     const getFieldLabel = (name:any, label:any) => {
         if(name === 'free_ba'){
-            return `${group === 'idealpos' ? label?.replace('BA+', 'A+') : label}`
+            return `${group !== 'oolio' ? label?.replace('BA+', 'A+') : label}`
         }
         else if(name === 'free_myplace'){
-            return `${group === 'idealpos' ? label?.replace('MyPlace', 'Loyalty') : label}`
+            return `${group !== 'oolio' ? label?.replace('MyPlace', 'Loyalty') : label}`
         }
         else{
             return label
