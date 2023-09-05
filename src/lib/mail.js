@@ -10,7 +10,7 @@ export const sendMail = (email=[], values, group="oolio") => {
 
     var raw = JSON.stringify({
     "to": [
-        ...email.filter((item, index) => email.indexOf(item) === index),
+        ...email
     ],
     "from": "OolioPay Calculator <calc-mail-service@hellopos.net.au>",
     "subject": "Received an new quote from " + values['venue_name'],

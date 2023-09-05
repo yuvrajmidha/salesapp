@@ -106,15 +106,18 @@ export default function Test() {
 
             if(group === 'idealpos'){
                 admin_emails = ['quotes@idealpos.co']
+                emails = [user.email, ...admin_emails]
             }
             else if(group === 'swiftpos'){
                 admin_emails = ['pia.davis@ooliogroup.com', 'tim.morgan@mslsolutions.com']
+                emails = admin_emails
             }
             else{
                 admin_emails = ['quotes@bepoz.com.au']
+                emails = [user.email, ...admin_emails]
             }
 
-            emails = [user.email, ...admin_emails]
+           
 
             sendMail(emails, values, group).then(res => {
                 // showSuccess("Mail Sent to " + user.email)
