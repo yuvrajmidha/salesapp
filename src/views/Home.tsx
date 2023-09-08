@@ -69,7 +69,7 @@ export default function Test() {
         if(user.email.includes('@idealpos')){
             setGroup('idealpos')
         }
-        else if(['pia.davis@ooliogroup.com', 'tim.morgan@mslsolutions.com'].includes(user?.email)){
+        else if(['pia.davis@ooliogroup.com', 'tim.morgan@mslsolutions.com', 'tony.strugar@swiftpos.com.au'].includes(user?.email)){
             setGroup('swiftpos')
         }
         else{
@@ -109,7 +109,7 @@ export default function Test() {
                 emails = [user.email, ...admin_emails]
             }
             else if(group === 'swiftpos'){
-                admin_emails = ['pia.davis@ooliogroup.com', 'tim.morgan@mslsolutions.com']
+                admin_emails = ['pia.davis@ooliogroup.com', 'tim.morgan@mslsolutions.com', 'tony.strugar@swiftpos.com.au']
                 emails = admin_emails
             }
             else{
